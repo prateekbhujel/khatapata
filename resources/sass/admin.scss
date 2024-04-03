@@ -3,3 +3,18 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+//FontAwesome
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/brands';
+
+//trumbowyg editor
+@import 'trumbowyg/dist/ui/sass/trumbowyg';
+
+// Datatables
+@import 'datatables.net-bs4/css/dataTables.bootstrap4.css';
+
+//Custom CSS for Admin-Section
+@import '../css/admin.css';
