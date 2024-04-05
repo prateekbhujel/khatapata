@@ -6,15 +6,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                @if(auth('cms')->user()->status == 'Active')
+                {{-- @if(auth('cms')->user()->status == 'Active') --}}
 
-                    @if(auth('cms')->user()->type == 'Admin')
+                    {{-- @if(auth('cms')->user()->type == 'Admin') --}}
                         <li class="nav-item">
                             <a class="nav-link nav-item" href="#">
                                 <i class="fa-solid fa-users me-2"></i>Staffs
                             </a>
                         </li>
-                    @endif
+                    {{-- @endif --}}
                     
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
@@ -52,19 +52,19 @@
                         </a>
                     </li>
 
-                @endif
+                {{-- @endif --}}
             </ul>
 
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-user-circle me-2"></i> Test 
-                        {{ auth('cms')->user()->name }}
+                        {{-- {{ auth('cms')->user()->name }} --}}
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end">
                     
-                    @if(auth('cms')->user()->status == 'Active')
+                    {{-- @if(auth('cms')->user()->status == 'Active') --}}
                         <li>
                             <a class="dropdown-item nav-item" href="#">
                                 <i class="fa-solid fa-user-edit me-2"></i>Edit Profile
@@ -80,7 +80,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                    @endif
+                    {{-- @endif --}}
 
                         <li>
                             <form action="#" method="post">

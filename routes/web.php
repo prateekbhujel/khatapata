@@ -1,18 +1,77 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\StaffsController;
+use App\Http\Controllers\Admin\UsersController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+
+/** 
+ * Web routes for Admins. 
+**/
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    //Auth 'cms' middleware group start.
+    Route::middleware('auth:cms')->group(function(){
+        
+        //active-only middleware
+        Route::middleware('active-only')->group(function(){
+            
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+            Route::resource('staffs', StaffsController::class)->except(['show'])->middleware('admin-access');
+            
+            Route::resources([
+                'users'   => UsersController::class,
+            ], [
+                'except'     => ['show']
+            ]);
+
+            Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+   
+            Route::get('/inactive', function() {
+               return view('admin.errors.inactive');
+            })->name('errros.inactive');
+
+        });//End of active-only middleware
+        
+    });//End Middleware group.
+    
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.show');
+
+    Route::post('/login', [LoginController::class, 'login'])->name('login.check');
+
+});//End of Admin Route.
+
+
+/** 
+ * Web routes for User. 
+**/
+Route::prefix('user')->name('user.')->group(function () {
+    
+    //Auth 'auth' middleware group start.
+    Route::middleware('auth')->group(function(){
+        
+        //active-only middleware
+        Route::middleware('active-only')->group(function(){
+   
+            Route::get('/inactive', function() {
+               return view('user.errors.inactive');
+            })->name('errros.inactive');
+
+        });//End of active-only middleware
+        
+    });//End Middleware group.
+
+});//End of User Route.
+
 
 //Start of Front Routes.
 Route::get('/', function () {
-    return view('front.welcome');
+    return view('welcome');
 });
 //End of Forntend Route
 
-//Admin or Backend Route 
-Route::get('/admin', function () {
-    return view('admin.dashboard.index');
-})->name('admin.dashboard.index');
-//End of Admin Route
-
-
-// Auth::routes();
+Auth::routes();

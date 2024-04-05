@@ -15,15 +15,11 @@ class ActiveOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->user('cms')->status == 'Inactive'){
-            
+        if($request->user('cms')->status == 'Inactive')
+        {
             return to_route('admin.errors.inactive');
         }
-
-            if($request->user('auth')->status == 'Inactive'){
-
-                return to_route('admin.errors.inactive');
-            }
+        
         return $next($request);
     }
 }
