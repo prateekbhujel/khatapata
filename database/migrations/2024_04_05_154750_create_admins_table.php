@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('admins', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone', 30);
             $table->text('address');
             $table->enum('status',['Active', 'Inactive'])->default('Active');
+            $table->enum('type',['Admin', 'Staff'])->default('Staff');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('admins');
     }
 };
