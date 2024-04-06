@@ -83,7 +83,7 @@
                     @endif
 
                         <li>
-                            <form action="#" method="post">
+                            <form action="{{ route('admin.logout') }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-link-dropdown-item">
                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout
