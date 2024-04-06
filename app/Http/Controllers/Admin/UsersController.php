@@ -13,7 +13,8 @@ class UsersController extends Controller
     public function index()
     {
         //
-    }
+        
+    }//End Method
 
     /**
      * Show the form for creating a new resource.
@@ -21,7 +22,8 @@ class UsersController extends Controller
     public function create()
     {
         //
-    }
+        
+    }//End Method
 
     /**
      * Store a newly created resource in storage.
@@ -29,7 +31,8 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
-    }
+        
+    }//End Method
 
     /**
      * Show the form for editing the specified resource.
@@ -37,7 +40,8 @@ class UsersController extends Controller
     public function edit(string $id)
     {
         //
-    }
+
+    }//End Method
 
     /**
      * Update the specified resource in storage.
@@ -45,7 +49,8 @@ class UsersController extends Controller
     public function update(Request $request, string $id)
     {
         //
-    }
+
+    }//End Method
 
     /**
      * Remove the specified resource from storage.
@@ -53,5 +58,6 @@ class UsersController extends Controller
     public function destroy(string $id)
     {
         //
-    }
+
+    }//End Method
 }

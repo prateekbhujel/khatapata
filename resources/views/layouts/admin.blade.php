@@ -14,8 +14,9 @@
 </head>
 
 <body class="bg-body-secondary">
-
+      @auth('cms')
         @include('admin.templates.navbar')
+      @endauth
 
     @yield('content')
 
