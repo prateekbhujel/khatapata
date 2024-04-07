@@ -10,12 +10,18 @@
 
                     @if(auth('cms')->user()->type == 'Admin')
                         <li class="nav-item">
-                            <a class="nav-link nav-item" href="#">
+                            <a class="nav-link nav-item {{ request()->routeIs('admin.staffs.*') ? 'active' : '' }}" href="{{ route('admin.staffs.index') }}">
                                 <i class="fa-solid fa-users me-2"></i>Staffs
                             </a>
                         </li>
                     @endif
                     
+                    <li class="nav-item">
+                        <a class="nav-link nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+                            <i class="fa-solid fa-user-friends me-2"></i>Users
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
                             <i class="fa-solid fa-th-list me-2"></i>Categories
@@ -24,31 +30,13 @@
 
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-star me-2"></i>Brands
+                            <i class="fa-solid fa-paperclip me-2"></i>CMS
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-gifts me-2"></i>Products
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-user-friends me-2"></i>Users
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-comments me-2"></i>Reviews
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-shopping-basket me-2"></i>Orders
+                            <i class="fa-solid fa-gear me-2"></i>settings
                         </a>
                     </li>
 
@@ -58,7 +46,7 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-circle me-2"></i> Test 
+                        <i class="fa-solid fa-user-circle me-2"></i> 
                         {{ auth('cms')->user()->name }}
                     </a>
 
@@ -66,13 +54,13 @@
                     
                     @if(auth('cms')->user()->status == 'Active')
                         <li>
-                            <a class="dropdown-item nav-item" href="#">
+                            <a class="dropdown-item nav-item" href="{{ route('admin.profile.edit') }}">
                                 <i class="fa-solid fa-user-edit me-2"></i>Edit Profile
                             </a>
                         </li>
                         
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('admin.password.edit') }}">
                                 <i class="fa-solid fa-asterisk me-2"></i>Change Password
                             </a>
                         </li>

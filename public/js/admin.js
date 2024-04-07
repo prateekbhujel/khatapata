@@ -9062,10 +9062,12 @@ __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4
 //Custom Functions
 $(function () {
   $('.toast').toast('show');
-  $('.delete').click(function (e) {
+
+  // Event delegation for delete buttons
+  $(document).on('click', '.delete', function (e) {
     e.preventDefault();
     if (confirm('Are you sure you want to delete this item?!')) {
-      $(this).parent().submit();
+      $(this).closest('form').submit();
     }
   });
 });

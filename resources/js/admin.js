@@ -8,12 +8,13 @@ require('datatables.net-bs4');
 $(function () {
 
     $('.toast').toast('show');
-
-    $('.delete').click(function(e) {
-       e.preventDefault();
-       if(confirm('Are you sure you want to delete this item?!')) {
-            $(this).parent().submit();
-       } 
+    
+    // Event delegation for delete buttons
+    $(document).on('click', '.delete', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to delete this item?!')) {
+            $(this).closest('form').submit();
+        }
     });
     
 });
