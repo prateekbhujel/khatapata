@@ -23,14 +23,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-th-list me-2"></i>Categories
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-paperclip me-2"></i>CMS
+                        <a class="nav-link nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.features.index') }}">
+                            <i class="fa-solid fa-th-list me-2"></i>Features
                         </a>
                     </li>
 

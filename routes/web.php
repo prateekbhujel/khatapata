@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FeaturesController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -33,7 +34,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('staffs', StaffsController::class)->except(['show'])->middleware('admin-access');
             
             Route::resources([
-                'users'   => UsersController::class,
+                'users'      => UsersController::class,
+                'features'   => FeaturesController::class,
             ], [
                 'except'     => ['show']
             ]);
@@ -80,7 +82,7 @@ Route::prefix('user')->name('user.')->group(function () {
 //Start of Front Routes.
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 //End of Forntend Route
 
 Auth::routes();

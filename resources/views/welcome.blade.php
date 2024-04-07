@@ -17,20 +17,41 @@
     <section id="about" class="py-5">
         <div class="container text-center">
             <h2 class="font-weight-bold btn btn-dark text-white">About Us</h2>
-            <p class="lead">We're dedicated to helping you take control of your finances with our powerful expense tracking app.</p>
             <p>Our app is designed to be user-friendly, customizable, and packed with features to help you understand your spending habits and reach your financial goals.</p>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-5">
-        <div class="container text-center">
-            <h2 class="font-weight-bold text-white btn btn-dark">Key Features</h2>
+    <section id="features" class="py-5 bg-dark">
+        <div class="container">
+            <h2 class="font-weight-bold text-white mb-4">Key Features</h2>
             <div class="row">
-                <div class="col-md-4 text-center">
-                       Text parqagaph here of feature
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">Expense Tracking</h4>
+                            <p class="card-text">Effortlessly track your expenses and manage your finances with our intuitive expense tracking feature.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">Custom Categories</h4>
+                            <p class="card-text">Create custom categories to organize your expenses based on your specific needs and preferences.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h4 class="card-title">Budget Planning</h4>
+                            <p class="card-text">Plan and manage your budget effectively with our budgeting tools, helping you achieve your financial goals.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
 @endsection

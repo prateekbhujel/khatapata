@@ -9070,6 +9070,9 @@ $(function () {
       $(this).closest('form').submit();
     }
   });
+  $('.editor').trumbowyg({
+    svgPath: route('home') + '/node_modules/trumbowyg/dist/ui/icons.svg'
+  });
 });
 
 /***/ }),
