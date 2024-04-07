@@ -1,0 +1,53 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #b3b3b3;
+}
+
+.navbar {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #007bff !important;
+}
+
+.jumbotron {
+    background-image: url('https://source.unsplash.com/1600x900/?finance,money');
+    background-size: cover;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    padding: 150px 0;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: #007bff;
+}
+
+.feature-heading {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.feature-description {
+    color: #6c757d;
+}
+
+.cta-section {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 50px 0;
+}
+
+.cta-heading {
+    font-weight: bold;
+}
+
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+}
