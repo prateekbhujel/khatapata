@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PasswordController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\WebSettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,9 +35,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resource('staffs', StaffsController::class)->except(['show'])->middleware('admin-access');
             
             Route::resources([
-                'users'      => UsersController::class,
-                'features'   => FeaturesController::class,
-            ], [
+                'users'       => UsersController::class,
+                'features'    => FeaturesController::class,
+                'websettings' => WebSettingsController::class,
+            ], 
+            [
                 'except'     => ['show']
             ]);
 

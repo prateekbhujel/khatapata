@@ -73,7 +73,7 @@ class FeaturesController extends Controller
     {
         $feature->delete();
 
-        return redirect()->back()->withSuccess('Staff Removed');
+        return redirect()->back()->withSuccess('Feature Removed.');
 
     }//End Method
 }
