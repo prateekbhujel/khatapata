@@ -36,10 +36,10 @@ class FeatureDataTable extends DataTable
                     </form>';
         })        
         ->addColumn('created_at', function($data){
-            return $data->created_at->format('jS M, Y'); 
+            return $data->created_at->toDayDateTimeString(); 
         })
         ->addColumn('updated_at', function($data){
-            return $data->updated_at->format('jS M, Y'); 
+            return $data->updated_at->toDayDateTimeString(); 
         });
     }
 
@@ -72,7 +72,7 @@ class FeatureDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('name'),
+            Column::make('name')->width(10),
             Column::make('description'),
             Column::make('status'),
             Column::make('created_at'),
@@ -80,7 +80,7 @@ class FeatureDataTable extends DataTable
             Column::computed('action')
             ->exportable(false)
             ->printable(false)
-            ->width(60)
+            ->width(100)
             ->addClass('text-center'),
         ];
     }

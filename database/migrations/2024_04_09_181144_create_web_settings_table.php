@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
+            $table->text('about_us_description')->nullable();
             $table->string('btn_name')->nullable();
             $table->string('btn_route')->nullable();
             $table->text('favico')->nullable();
