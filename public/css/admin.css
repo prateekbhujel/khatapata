@@ -486,7 +486,10 @@ div.table-responsive > div.dt-container > div.row > div[class^=col-]:last-child 
   padding-right: 0;
 }
 
-
+.img-sm {
+    width: auto;
+    height: 50px;
+}
 @charset "UTF-8";
 /*!
  * Bootstrap  v5.3.3 (https://getbootstrap.com/)

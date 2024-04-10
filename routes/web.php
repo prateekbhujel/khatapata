@@ -33,7 +33,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::match(['put', 'patch'], '/password/update', [PasswordController::class, 'update'])->name('password.update');
             
             Route::resource('staffs', StaffsController::class)->except(['show'])->middleware('admin-access');
-            Route::resource('settings', WebSettingsController::class)->except(['show', 'edit', 'store', 'destroy']);
+            Route::resource('settings', WebSettingsController::class)->except(['show', 'edit', 'store', 'destroy'])->middleware('admin-access');
             
             Route::resources([
                 'users'       => UsersController::class,

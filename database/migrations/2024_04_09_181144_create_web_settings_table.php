@@ -18,6 +18,9 @@ return new class extends Migration
             $table->text('about_us_description')->nullable();
             $table->string('btn_name')->nullable();
             $table->string('btn_route')->nullable();
+            $table->string('website_title')->nullable();
+            $table->text('seo_description')->nullable();
+            $table->string('seo_keywords')->nullable();
             $table->text('favico')->nullable();
             $table->text('logo')->nullable();
             $table->timestamps();

@@ -23,13 +23,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.features.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('admin.features.*') ? 'active' : '' }}" href="{{ route('admin.features.index') }}">
                             <i class="fa-solid fa-th-list me-2"></i>Features
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
+                        <a class="nav-link nav-item {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                             <i class="fa-solid fa-gear me-2"></i>settings
                         </a>
                     </li>

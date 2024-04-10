@@ -46,7 +46,7 @@
         @endif
     </div>
 
-    <script src="{{ url('public/js/admin.js') }}"></script>
+    <script src="{{ url('public/js/admin.js?123') }}"></script>
 
 
     @stack('scripts')

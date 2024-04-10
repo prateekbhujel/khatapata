@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\WebSetting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
 
 class WebSettingsController extends Controller
 {
@@ -12,54 +16,54 @@ class WebSettingsController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $setting = WebSetting::first();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        return view('admin.settings.index', compact('setting'));
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    }//End Method
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $request->validate([
+            'name'                      => 'nullable|max:200',
+            'description'               => 'nullable|max:1600',
+            'about_us_description'      => 'nullable|max:1600',
+            'btn_name'                  => 'nullable|min:1|max:30',
+            'btn_route'                 => 'nullable|min:1|max:50',
+            'website_title'             => 'nullable|min:1|max:150',
+            'seo_description'           => 'nullable|min:1|max:20054',
+            'seo_keywords'              => 'nullable|min:1|max:10000',
+            'favico'                    => 'image|max:512|mimes:jpeg,png',
+            'logo'                      => 'image|max:1024|mimes:jpeg,png',
+        ]);
+        
+        $web_settings       = WebSetting::findOrFail($id);
+        $favico             = handleUpload('favico', $web_settings);
+        $logo               = handleUpload('logo', $web_settings);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+         WebSetting::updateOrCreate(
+            [
+                'id'                    => $id
+            ],
+            [
+                'name'                  => $request->name,
+                'description'           => $request->description,
+                'about_us_description'  => $request->about_us_description,
+                'btn_name'              => $request->btn_name,
+                'btn_route'             => $request->btn_route,
+                'website_title'         => $request->website_title,
+                'seo_description'       => $request->seo_description,
+                'seo_keywords'          => $request->seo_keywords,
+                'favico'                => (!empty($favico) ? $favico : $web_settings->favico),
+                'logo'                  => (!empty($logo) ? $logo : $web_settings->logo),
+                'updated_at'            => Carbon::now(),
+            ]
+         );
+    
+         return redirect()->back()->withSuccess('Setting was Updated.');
+
+    }//End Method
 }
