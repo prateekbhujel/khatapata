@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
+use App\Http\Controllers\User\UserDashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,15 +44,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'except'     => ['show']
             ]);
 
-            Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-   
-            Route::get('/inactive', function() {
-               return view('admin.errors.inactive');
-            })->name('errros.inactive');
-
         });//End of active-only middleware
+        Route::get('/inactive', function() {
+            return view('admin.errors.inactive');
+         })->name('errors.inactive');
+
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
-    });//End Middleware group.
+    });//End of 'cms' Middleware group.
     
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login.show');
 
@@ -70,12 +70,14 @@ Route::prefix('user')->name('user.')->group(function () {
         
         //active-only middleware
         Route::middleware('active-only')->group(function(){
-   
-            Route::get('/inactive', function() {
-               return view('user.errors.inactive');
-            })->name('errros.inactive');
 
+            Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard.index');
+            
         });//End of active-only middleware
+
+        Route::get('/inactive', function() {
+        return view('user.errors.inactive');
+        })->name('errros.inactive');
         
     });//End Middleware group.
 

@@ -15,7 +15,7 @@
                 </li>
                 @if (Auth::check())
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="{{ route('user.dashboard.index') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <form method="post" action="{{ route('logout') }}">

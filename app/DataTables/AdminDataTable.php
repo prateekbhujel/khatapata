@@ -23,10 +23,10 @@ class AdminDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
         ->addColumn('action', function($staff){
-            return '<form action="'.route('admin.users.destroy', [$staff->id]).'" method="post">
+            return '<form action="'.route('admin.staffs.destroy', [$staff->id]).'" method="post">
                         '.csrf_field().'
                         '.method_field('delete').'
-                        <a href="'.route('admin.users.edit', [$staff->id]).'" class="btn btn-dark btn-sm">
+                        <a href="'.route('admin.staffs.edit', [$staff->id]).'" class="btn btn-dark btn-sm">
                             <i class="fa-solid fa-edit me-2"></i>
                         </a>
                         <button type="submit" class="btn btn-danger btn-sm delete">

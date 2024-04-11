@@ -23,7 +23,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['*'], function ($view) {
-            $url = url()->current();
+            $url = url()->current() && url('/login');
             
             if ($url == url('/')) {
                 $features = Feature::whereStatus('Active')->get();
