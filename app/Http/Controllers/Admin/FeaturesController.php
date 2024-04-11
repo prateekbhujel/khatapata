@@ -34,7 +34,7 @@ class FeaturesController extends Controller
     {
         Feature::create($request->validate([
             'name'          => 'required|string|min:5|max:30',
-            'description'   => 'required|string|min:10|max:500',
+            'description'   => 'required|string|min:10',
             'status'        => 'required|in:Active,Inactive',
         ]));
 
@@ -58,7 +58,7 @@ class FeaturesController extends Controller
     {
         $feature->update($request->validate([
             'name'          => 'required|string|min:5|max:30',
-            'description'   => 'required|string|min:10|max:500',
+            'description'   => 'required|string|min:10',
             'status'        => 'required|in:Active,Inactive',
         ]));
 

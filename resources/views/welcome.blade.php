@@ -7,9 +7,9 @@
     <!-- Hero Section -->
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="display-4 font-weight-bold">{{ config('app.name') }}</h1>
-            <p class="lead">Your Personal Finance Assistant</p>
-            <a href="{{ route('register') }}" class="btn btn-primary btn-lg">Get Started</a>
+            <h1 class="display-4 font-weight-bold">{{ $settings->name }}</h1>
+            <p class="lead">{!! $settings->description !!}</p>
+            <a href="{{ route($settings->btn_route) }}" class="btn btn-primary btn-lg">{{ $settings->btn_name }}</a>
         </div>
     </section>
 
@@ -17,7 +17,7 @@
     <section id="about" class="py-5">
         <div class="container text-center">
             <h2 class="font-weight-bold btn btn-dark text-white">About Us</h2>
-            <p>Our app is designed to be user-friendly, customizable, and packed with features to help you understand your spending habits and reach your financial goals.</p>
+            <p>{!! $settings->about_us_description !!}</p>
         </div>
     </section>
 

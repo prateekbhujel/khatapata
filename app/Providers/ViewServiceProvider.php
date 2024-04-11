@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Feature;
+use App\Models\WebSetting;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,7 +27,8 @@ class ViewServiceProvider extends ServiceProvider
             
             if ($url == url('/')) {
                 $features = Feature::whereStatus('Active')->get();
-                $view->with(compact('features'));
+                $settings = WebSetting::first();
+                $view->with(compact('features', 'settings'));
             }
         });
     }
