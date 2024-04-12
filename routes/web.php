@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
 use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\User\UsersProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -72,7 +73,11 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::middleware('active-only')->group(function(){
 
             Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard.index');
+
+            Route::get('/profile/edit', [UsersProfileController::class, 'edit'])->name('profile.edit');
             
+            Route::match(['put', 'patch'], '/profile/update', [UsersProfileController::class, 'update'])->name('profile.update');
+
         });//End of active-only middleware
 
         Route::get('/inactive', function() {

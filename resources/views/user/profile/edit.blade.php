@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('title', 'Edit Profile')
 
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('admin.profile.update') }}" method="post">
+                <form action="{{ route('user.profile.update') }}" method="post">
                     @csrf
                     @method('patch')
 
