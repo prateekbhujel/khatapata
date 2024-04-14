@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.user')
 
 @section('title', 'Change Password')
 
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('admin.password.update') }}" method="post">
+                <form action="{{ route('user.password.update') }}" method="post">
                     @csrf
                     @method('patch')
 

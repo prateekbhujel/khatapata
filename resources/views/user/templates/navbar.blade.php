@@ -45,13 +45,13 @@
                     
                     @if(auth()->user()->status == 'Active')
                         <li>
-                            <a class="dropdown-item nav-item" href="#">
+                            <a class="dropdown-item nav-item" href="{{ route('user.profile.edit') }}">
                                 <i class="fa-solid fa-user-edit me-2"></i>Edit Profile
                             </a>
                         </li>
                         
                         <li>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('user.password.edit') }}">
                                 <i class="fa-solid fa-asterisk me-2"></i>Change Password
                             </a>
                         </li>
@@ -62,7 +62,7 @@
                     @endif
 
                         <li>
-                            <form action="#" method="post">
+                            <form action="{{ route('logout') }}" method="post">
                                 @csrf
                                 <button type="submit" class="btn btn-link-dropdown-item">
                                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Logout

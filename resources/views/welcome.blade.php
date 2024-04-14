@@ -1,6 +1,11 @@
 @extends('layouts.front')
 
-@section('title', 'Home')
+@section('title', $settings->website_title)
+
+@section('keywords', $settings->seo_keywords)
+
+@section('description', $settings->seo_description)
+
 
 @section('content')
 

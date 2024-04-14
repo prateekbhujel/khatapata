@@ -55,7 +55,7 @@
 
                         <div class="mb-3">
                             <label for="seo_description" class="form-label">Seo Description</label>
-                            <textarea name="seo_description" id="seo_description" class="form-control editor">{{ old('seo_description', $setting->seo_description ?? '') }}</textarea>
+                            <textarea name="seo_description" id="seo_description" class="form-control">{{ old('seo_description', $setting->seo_description ?? '') }}</textarea>
                         </div>
 
                         <div class="mb-3">

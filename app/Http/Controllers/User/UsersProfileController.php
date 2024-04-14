@@ -11,7 +11,7 @@ class UsersProfileController extends Controller
 
     public function edit()
     {
-       $user =  Auth::guard('auth')->user();
+       $user =  Auth::guard()->user();
 
         return view('user.profile.edit', compact('user'));
 
@@ -19,13 +19,13 @@ class UsersProfileController extends Controller
 
     public function update(Request $request)
     {
-        Auth::guard('auth')->user()->update($request->validate([
+        Auth::guard()->user()->update($request->validate([
             'name'    => 'required|string|min:5',
             'phone'   => 'required|max:30',
             'address' => 'required|string',
         ]));
 
-        return redirect()->back()->with('success', 'Profile Updated.');
+        return redirect()->back()->with('success', 'User Profile Updated.');
 
     }//End Method
 

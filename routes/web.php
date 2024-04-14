@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
 use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\User\UsersPasswordController;
 use App\Http\Controllers\User\UsersProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,10 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/profile/edit', [UsersProfileController::class, 'edit'])->name('profile.edit');
             
             Route::match(['put', 'patch'], '/profile/update', [UsersProfileController::class, 'update'])->name('profile.update');
+
+            Route::get('/password/edit', [UsersPasswordController::class, 'edit'])->name('password.edit');
+            
+            Route::match(['put', 'patch'], '/password/update', [UsersPasswordController::class, 'update'])->name('password.update');
 
         });//End of active-only middleware
 
