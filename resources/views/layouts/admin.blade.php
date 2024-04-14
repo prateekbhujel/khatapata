@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="{{ url('public/css/admin.css') }}">
     
     @routes
+    
+    @if (!empty($settings->favico))
+    <link rel="icon" href="{{ asset($settings->favico) }}" type="image/x-icon">
+@endif
 </head>
 
 <body class="bg-body-secondary">

@@ -1,7 +1,16 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">{{ $settings->name }}</a>
+        <!-- Display logo image if available, otherwise display website name -->
+        <a class="navbar-brand" href="{{ route('home') }}">
+            @if ($settings && $settings->logo)
+                <!-- If logo URL is available, display the logo image -->
+                <img src="{{ asset($settings->logo) }}" alt="{{ $settings->name }}" class="navbar-brand-logo" style="max-width: 100px; height: auto;">
+            @else
+                <!-- If logo URL is not available, display the website name as text -->
+                <span class="navbar-brand-text">{{ $settings->name }}</span>
+            @endif
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

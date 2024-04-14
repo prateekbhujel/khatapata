@@ -22,7 +22,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['*'], function ($view) {
+        View::composer('*', function ($view) {
             $url = url()->current() && url('/login');
             
             if ($url == url('/')) {

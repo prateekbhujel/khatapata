@@ -11,7 +11,12 @@
 
      <!-- SEO Description -->
      <meta name="description" content="@yield('description')">
-     
+
+     @if (!empty($settings->favico))
+        <link rel="icon" href="{{ asset($settings->favico) }}" type="image/x-icon">
+    @endif
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
