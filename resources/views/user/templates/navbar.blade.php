@@ -13,13 +13,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @if(auth()->user()->status == 'Active')
-                        <li class="nav-item">
-                            <a class="nav-link nav-item" href="#">
-                                <i class="fa-solid fa-users me-2"></i>Transaction
-                            </a>
-                        </li>
-                    @endif
-                    
+                            
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
                             <i class="fa-solid fa-th-list me-2"></i>Categories
@@ -37,7 +31,7 @@
                             <i class="fa-solid fa-gifts me-2"></i>Products
                         </a>
                     </li>
-                    
+                @endif
             </ul>
 
             <ul class="navbar-nav mb-2 mb-lg-0">

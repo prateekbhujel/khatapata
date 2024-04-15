@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
+use App\Http\Controllers\User\CategoriesController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UsersPasswordController;
 use App\Http\Controllers\User\UsersProfileController;
@@ -82,6 +83,14 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/password/edit', [UsersPasswordController::class, 'edit'])->name('password.edit');
             
             Route::match(['put', 'patch'], '/password/update', [UsersPasswordController::class, 'update'])->name('password.update');
+
+            Route::resources([
+                'categories'  => CategoriesController::class,
+            ], 
+            [
+                'except'     => ['show']
+            ]);
+
 
         });//End of active-only middleware
 

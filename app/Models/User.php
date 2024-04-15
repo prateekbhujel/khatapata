@@ -45,4 +45,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     *  This is an reverse realationship between User and Category.
+     */
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
 }
