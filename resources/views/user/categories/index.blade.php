@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('user.features.create') }}" class="btn btn-dark">
+                    <a href="{{ route('user.categories.create') }}" class="btn btn-dark">
                         <i class="fa-solid fa-plus me-2"></i>Add Category
                     </a>
                 </div>

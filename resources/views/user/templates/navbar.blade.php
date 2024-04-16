@@ -15,7 +15,7 @@
                 @if(auth()->user()->status == 'Active')
                             
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.categories.*') ? 'active' : '' }}" href="{{ route('user.categories.index') }}">
                             <i class="fa-solid fa-th-list me-2"></i>Categories
                         </a>
                     </li>

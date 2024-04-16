@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -22,8 +23,24 @@ class CategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'category.action')
-            ->setRowId('id');
+        ->addColumn('action', function($category){
+            return '<form action="'.route('user.categories.destroy', [$category->id]).'" method="post">
+                        '.csrf_field().'
+                        '.method_field('delete').'
+                        <a href="'.route('user.categories.edit', [$category->id]).'" class="btn btn-dark btn-sm">
+                            <i class="fa-solid fa-edit me-2"></i>
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-sm delete">
+                            <i class="fa-solid fa-times me-2"></i>
+                        </button>
+                    </form>';
+        })        
+        ->addColumn('created_at', function($data){
+            return $data->created_at->toDayDateTimeString(); 
+        })
+        ->addColumn('updated_at', function($data){
+            return $data->updated_at->toDayDateTimeString(); 
+        });
     }
 
     /**
@@ -31,7 +48,7 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('user_id', Auth::user()->id);
     }
 
     /**
@@ -46,14 +63,7 @@ class CategoryDataTable extends DataTable
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+                    ->buttons([]);
     }
 
     /**
@@ -62,15 +72,15 @@ class CategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
+            Column::make('name'),
+            Column::make('description'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)
+            ->addClass('text-center'),
         ];
     }
 

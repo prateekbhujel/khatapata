@@ -28,7 +28,7 @@
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <textarea name="description" id="description" class="form-control">{{ old('description', $category->seo_description) }}</textarea>
+                            <textarea name="description" id="description" class="form-control">{{ old('description', $category->description) }}</textarea>
                         </div>
 
                         <div class="mb-3">
