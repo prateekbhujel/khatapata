@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\User;
 
-use App\DataTables\ExpenseDataTable;
+use App\DataTables\IncomeDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Expense;
+use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ExpensesController extends Controller
+class IncomesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(ExpenseDataTable $dataTable)
+    public function index(IncomeDataTable $dataTable)
     {
-        return $dataTable->render('user.expenses.index');
+        return $dataTable->render('user.incomes.index');
+        
+    }//End Method
 
-    }//End method
 
     /**
      * Show the form for creating a new resource.
@@ -26,13 +27,14 @@ class ExpensesController extends Controller
     public function create()
     {
         $categories = Category::where('user_id', Auth::id())
-        ->where('status', 'Active')
-        ->where('type', 'expense')
-        ->get();
+                                ->where('status', 'Active')
+                                ->where('type', 'income')
+                                ->get();
 
-        return view('user.expenses.create', 'categories');
+        return view('user.incomes.create', 'categories');
 
     }//End Method
+
 
     /**
      * Store a newly created resource in storage.
@@ -43,45 +45,48 @@ class ExpensesController extends Controller
 
     }//End Method
 
+
     /**
      * Display the specified resource.
      */
-    public function show(Expense $expense)
+    public function show(Income $income)
     {
         //
 
     }//End Method
 
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Expense $expense)
+    public function edit(Income $income)
     {
         $categories = Category::where('user_id', Auth::id())
-                                ->where('status', 'Active')
-                                ->where('type', 'income')
-                                ->get();
+        ->where('status', 'Active')
+        ->where('type', 'income')
+        ->get();
 
-        return view('user.expenses.edit', 'categories', 'expense');
+        return view('user.incomes.edit', 'categories', 'income');
 
     }//End Method
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Expense $expense)
+    public function update(Request $request, Income $income)
     {
         //
 
-    }//End method
+    }//End Method
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Expense $expense)
+    public function destroy(Income $income)
     {
-        $expense->delete();
+        $income->delete();
 
-        
-    }//End method
+    }//End Method
+
 }
