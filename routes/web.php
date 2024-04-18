@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
+use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\User\CategoriesController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UsersPasswordController;
@@ -86,6 +87,7 @@ Route::prefix('user')->name('user.')->group(function () {
 
             Route::resources([
                 'categories'  => CategoriesController::class,
+                'expenses'    => ExpensesController::class
             ], 
             [
                 'except'     => ['show']
