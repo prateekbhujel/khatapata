@@ -22,7 +22,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-star me-2"></i>Brands
+                            <i class="fas fa-money-bill-wave text-success me-2"></i>Expenses
                         </a>
                     </li>
 
