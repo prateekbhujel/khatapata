@@ -22,15 +22,22 @@
 
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
-                            <i class="fas fa-money-bill-wave text-success me-2"></i>Expenses
+                            <i class="fas fa-money-bill-wave me-2"></i>Expenses
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link nav-item" href="#">
-                            <i class="fa-solid fa-gifts me-2"></i>Products
+                            <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-item" href="#">
+                            <i class="fas fa-balance-scale me-2"></i>Plans
+                        </a>
+                    </li>
+
                 @endif
             </ul>
 

@@ -35,8 +35,8 @@ class CategoriesController extends Controller
     {
         $validated = $request->validate([
             'name'          => 'required|min:5|string|max:100',
-            'description'   => 'required|min:15|max:500|string',
-            'status'        => 'required|in:Active,Inactive'
+            'type'          => 'required|in:Expense,Income',
+            'status'        => 'required|in:Active,Inactive',
         ]);
         $validated['user_id'] = Auth::user()->id;
 
@@ -70,7 +70,7 @@ class CategoriesController extends Controller
     {   
         $validated = $request->validate([
             'name'          => 'required|min:5|string|max:100',
-            'description'   => 'required|min:15|max:500|string',
+            'type'        => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive'
         ]);
         $validated['user_id'] = $category->user_id;

@@ -27,15 +27,18 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea name="description" id="description" class="form-control">{{ old('description', $category->description) }}</textarea>
-                        </div>
+                            <label for="type" class="form-label">Type</label>
+                            <select name="type" id="type" class="form-select" required>
+                                <option value="Expense" @selected(old('type', $category->type) == 'Expense')>Expense</option>
+                                <option value="Income" @selected(old('type', $category->type) == 'Income')>Income</option>
+                            </select>
+                        </div> 
 
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select name="status" id="status" class="form-select" required>
-                                <option value="Active" @selected($category->status == 'Active')>Active</option>
-                                <option value="Inactive" @selected($category->status == 'Inactive')>Inactive</option>
+                                <option value="Active" @selected(old('status', $category->status) == 'Active')>Active</option>
+                                <option value="Inactive" @selected(old('status', $category->status) == 'Inactive')>Inactive</option>
                             </select>
                         </div>
 
