@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incomes', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();;
-            $table->foreignIdFor(Category::class)->constrained();;
-            $table->integer('amount');
-            $table->text('source')->nullable();
+            $table->foreignIdFor(User::class)->constrained();
+            $table->decimal('income_percentage', 5, 2);
+            $table->decimal('expense_percentage', 5, 2);
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('incomes');
+        Schema::dropIfExists('plans');
     }
 };

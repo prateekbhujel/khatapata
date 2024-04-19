@@ -47,10 +47,42 @@ class User extends Authenticatable
     ];
 
     /**
-     *  This is an reverse realationship between User and Category.
+     * Relationship with the Category model.
+     * A user can have many categories.
      */
     public function categories()
     {
         return $this->hasMany(Category::class);
-    }
+        
+    }//End Method
+
+    /**
+     * Relationship with the Income model.
+     * A user can have many income records.
+     */
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+        
+    }//End Method
+
+    /**
+     * Relationship with the Expense model.
+     * A user can have many expense records.
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+        
+    }//End Method
+
+    /**
+     * Relationship with the Plan model.
+     * A user can have many plans.
+     */
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+        
+    }//End Method
 }
