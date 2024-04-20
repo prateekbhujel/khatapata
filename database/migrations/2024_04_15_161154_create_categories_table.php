@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignIdFor(User::class)->constrained();
-            $table->enum('type', ['Active', 'Inactive'])->default('Active');
-            $table->enum('status', ['Expense', 'Income'])->default('Expense');
+            $table->enum('type', ['Expense', 'Income'])->default('Expense');
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });
     }

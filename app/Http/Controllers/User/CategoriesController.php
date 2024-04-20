@@ -70,7 +70,7 @@ class CategoriesController extends Controller
     {   
         $validated = $request->validate([
             'name'          => 'required|min:5|string|max:100',
-            'type'        => 'required|in:Expense,Income',
+            'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive'
         ]);
         $validated['user_id'] = $category->user_id;
