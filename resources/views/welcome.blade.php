@@ -14,7 +14,11 @@
         <div class="container">
             <h1 class="display-4 font-weight-bold">{{ $settings->name }}</h1>
             <p class="lead">{!! $settings->description !!}</p>
-            <a href="{{ route($settings->btn_route) }}" class="btn btn-primary btn-lg">{{ $settings->btn_name }}</a>
+            @if (Auth::check('auth'))
+                <a href="{{ route('user.dashboard.index') }}" class="btn btn-primary btn-lg">Go to Dashboard</a>
+            @else
+                <a href="{{ route($settings->btn_route) }}" class="btn btn-primary btn-lg">{{ $settings->btn_name }}</a>
+            @endif
         </div>
     </section>
 
