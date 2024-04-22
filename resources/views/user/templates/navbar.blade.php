@@ -21,7 +21,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
+                        <a class="nav-link nav-item" href="{{ route('user.expenses.index') }}">
                             <i class="fas fa-money-bill-wave me-2"></i>Expenses
                         </a>
                     </li>

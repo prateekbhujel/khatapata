@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Income extends Model
 {
@@ -27,5 +28,14 @@ class Income extends Model
     {
         return $this->belongsTo(Category::class);
 
+    }//End Method
+
+    /**
+     *  Checks if the user has set an Income or not.
+     */
+    public static function userHasIncome()
+    {
+        return Income::where('user_id', Auth::id())->exists();
+        
     }//End Method
 }

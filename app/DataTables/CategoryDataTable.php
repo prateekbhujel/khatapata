@@ -63,7 +63,14 @@ class CategoryDataTable extends DataTable
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
-                    ->buttons([]);
+                    ->buttons([
+                        // Add custom filter buttons
+                        Button::make('create')->text('All')->action('function () { table.columns([1, 2]).search("").draw(); }'),
+                        Button::make('create')->text('Expense')->action('function () { table.columns(1).search("Expense").draw(); }'),
+                        Button::make('create')->text('Income')->action('function () { table.columns(1).search("Income").draw(); }'),
+                        Button::make('create')->text('Active')->action('function () { table.columns(2).search("Active").draw(); }'),
+                        Button::make('create')->text('Inactive')->action('function () { table.columns(2).search("Inactive").draw(); }'),
+                    ]);
     }
 
     /**

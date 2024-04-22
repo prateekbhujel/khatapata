@@ -6,6 +6,7 @@ use App\DataTables\ExpenseDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,9 @@ class ExpensesController extends Controller
      */
     public function index(ExpenseDataTable $dataTable)
     {
+        if(!Income::userHasIncome())
+            return back()->withErrors('Income not set. Please set your income before accessing expenses.');
+
         return $dataTable->render('user.expenses.index');
 
     }//End method
