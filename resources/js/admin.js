@@ -8,7 +8,6 @@ require('datatables.net-bs4');
 $(function () {
     $('.toast').toast('show');
 
-    // Event delegation for delete buttons
     $(document).on('click', '.delete', function(e) {
         e.preventDefault();
         if (confirm('Are you sure you want to delete this item?!')) {
@@ -16,12 +15,11 @@ $(function () {
         }
     });
 
-    // Initialize Trumbowyg editor
+    //  Trumbowyg editor
     $('.editor').trumbowyg({
         svgPath: route('home') + '/node_modules/trumbowyg/dist/ui/icons.svg'
     });
 
-$(function () {
     // Function to handle image preview
     function handleImagePreview(input) {
         let files = input.files;
@@ -58,6 +56,4 @@ $(function () {
         let containerId = $(this).data('preview');
         displayExistingImage(imageUrl, containerId);
     });
-});
-    
 });

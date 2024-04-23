@@ -9065,8 +9065,6 @@ __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4
 // Custom Functions
 $(function () {
   $('.toast').toast('show');
-
-  // Event delegation for delete buttons
   $(document).on('click', '.delete', function (e) {
     e.preventDefault();
     if (confirm('Are you sure you want to delete this item?!')) {
@@ -9074,50 +9072,49 @@ $(function () {
     }
   });
 
-  // Initialize Trumbowyg editor
+  //  Trumbowyg editor
   $('.editor').trumbowyg({
     svgPath: route('home') + '/node_modules/trumbowyg/dist/ui/icons.svg'
   });
-  $(function () {
-    // Function to handle image preview
-    function handleImagePreview(input) {
-      var files = input.files;
-      var containerId = $(input).data('preview');
-      var html = '';
-      var _iterator = _createForOfIteratorHelper(files),
-        _step;
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var file = _step.value;
-          html += "<div class=\"col-4\">\n                        <img class=\"img-fluid\" src=\"".concat(URL.createObjectURL(file), "\" />   \n                    </div>");
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
+
+  // Function to handle image preview
+  function handleImagePreview(input) {
+    var files = input.files;
+    var containerId = $(input).data('preview');
+    var html = '';
+    var _iterator = _createForOfIteratorHelper(files),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var file = _step.value;
+        html += "<div class=\"col-4\">\n                        <img class=\"img-fluid\" src=\"".concat(URL.createObjectURL(file), "\" />   \n                    </div>");
       }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    $(containerId).html(html);
+  }
+
+  // Function to display existing image if available
+  function displayExistingImage(imageUrl, containerId) {
+    if (imageUrl) {
+      var html = "<div class=\"col-4\">\n                            <img class=\"img-fluid\" src=\"".concat(route('home') + imageUrl, "\" />   \n                        </div>");
       $(containerId).html(html);
     }
+  }
 
-    // Function to display existing image if available
-    function displayExistingImage(imageUrl, containerId) {
-      if (imageUrl) {
-        var html = "<div class=\"col-4\">\n                            <img class=\"img-fluid\" src=\"".concat(route('home') + imageUrl, "\" />   \n                        </div>");
-        $(containerId).html(html);
-      }
-    }
+  // Attach change event to all image inputs
+  $('input[type="file"][data-preview]').change(function (e) {
+    handleImagePreview(this);
+  });
 
-    // Attach change event to all image inputs
-    $('input[type="file"][data-preview]').change(function (e) {
-      handleImagePreview(this);
-    });
-
-    // Display existing images
-    $('[data-preview]').each(function () {
-      var imageUrl = $(this).data('existing');
-      var containerId = $(this).data('preview');
-      displayExistingImage(imageUrl, containerId);
-    });
+  // Display existing images
+  $('[data-preview]').each(function () {
+    var imageUrl = $(this).data('existing');
+    var containerId = $(this).data('preview');
+    displayExistingImage(imageUrl, containerId);
   });
 });
 

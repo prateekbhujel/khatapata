@@ -27,7 +27,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
+                        <a class="nav-link nav-item" href="{{ route('user.incomes.index') }}">
                             <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>

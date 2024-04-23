@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class CategoriesController extends Controller
 {
     /**
@@ -15,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function index(CategoryDataTable $dataTable)
     {
-        return $dataTable->render('user.categories.index');
+        return $dataTable->with(['model' => new Category()])->render('user.categories.index');
 
     }//End Method
 
@@ -100,5 +101,4 @@ class CategoriesController extends Controller
         return redirect()->back()->with('success', 'Category removed successfully.');
         
     }//End Method
-
 }
