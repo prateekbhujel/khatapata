@@ -16,7 +16,7 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
-     */
+    */
     protected $fillable = [
         'name',
         'email',
@@ -30,7 +30,7 @@ class User extends Authenticatable
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
-     */
+    */
     protected $hidden = [
         'password',
         'remember_token',
@@ -40,7 +40,7 @@ class User extends Authenticatable
      * The attributes that should be cast.
      *
      * @var array<string, string>
-     */
+    */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -49,7 +49,7 @@ class User extends Authenticatable
     /**
      * Relationship with the Category model.
      * A user can have many categories.
-     */
+    */
     public function categories()
     {
         return $this->hasMany(Category::class);
@@ -59,7 +59,7 @@ class User extends Authenticatable
     /**
      * Relationship with the Income model.
      * A user can have many income records.
-     */
+    */
     public function incomes()
     {
         return $this->hasMany(Income::class);
@@ -69,7 +69,7 @@ class User extends Authenticatable
     /**
      * Relationship with the Expense model.
      * A user can have many expense records.
-     */
+    */
     public function expenses()
     {
         return $this->hasMany(Expense::class);
@@ -77,12 +77,12 @@ class User extends Authenticatable
     }//End Method
 
     /**
-     * Relationship with the Plan model.
-     * A user can have many plans.
-     */
-    public function plans()
+     * Relationship with the Budget model.
+     * A user can have many budgets.
+    */
+    public function budget()
     {
-        return $this->hasMany(Plan::class);
+        return $this->hasMany(Budget::class);
         
     }//End Method
 }

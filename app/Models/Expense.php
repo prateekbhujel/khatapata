@@ -45,4 +45,14 @@ class Expense extends Model
         });
 
     }//End Mehtod
+
+    /**
+    * Get the budgets associated with the expense.
+    */
+    public function budgets()
+    {
+        return $this->belongsToMany(Budget::class);
+        
+    }//End Method
+
 }
