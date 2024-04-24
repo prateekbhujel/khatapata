@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('budget_income', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(Budget::class)->constrained();
-            $table->foreignId(Income::class)->constrained();
-            $table->foreignId(User::class)->constrained();
+            $table->foreignIdFor(Budget::class)->constrained();
+            $table->foreignIdFor(Income::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });
     }

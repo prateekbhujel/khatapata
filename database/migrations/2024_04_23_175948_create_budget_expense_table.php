@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('budget_expense', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(Budget::class)->constrained()->onDelete('cascade');
-            $table->foreignId(Expense::class)->constrained()->onDelete('cascade');
-            $table->foreignId(User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Budget::class)->constrained();
+            $table->foreignIdFor(Expense::class)->constrained();
+            $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });
     }

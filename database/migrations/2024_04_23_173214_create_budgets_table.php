@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class)->constrained()->onDelete('cascade');
-            $table->foreignId(Category::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Category::class)->constrained();
             $table->double('amount');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
