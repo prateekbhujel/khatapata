@@ -17,38 +17,39 @@
                     @csrf
 
                     <div class="col-5 mx-auto">
+
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="category_id" class="form-label">Category</label>
-                            <select name="category_id" id="category_id" class="form-select" required>
-                                @if($categories->isEmpty())
-                                <option selected>No Categories</option>
-                            @else
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                @endforeach
-                            @endif
-                            
-                            </select>
+                            <label for="amount" class="form-label">Amount</label>
+                            <input type="number" name="amount" id="amount" class="form-control" value="{{ old('amount') }}" required>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="type" class="form-label">Type</label>
                             <select name="type" id="type" class="form-select" required>
-                                <option value="Expense" @selected(old('type') == 'Expense')>Expense</option>
-                                <option value="Income" @selected(old('type') == 'Income')>Income</option>
+                                <option selected disabled>Select Type</option>
+                                <option value="Expense">Expense</option>
+                                <option value="Income">Income</option>
                             </select>
-                        </div>                                              
-                        
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">Category</label>
+                            <select name="category_id" id="category_id" class="form-select" required>
+                                <option selected disabled>Select Category</option>
+                                <!-- Categories dropdown will be populated dynamically using JavaScript -->
+                            </select>
+                        </div>   
+                                                                  
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <select name="status" id="status" class="form-select" required>
-                                <option value="Active" @selected(old('status') == 'Active')>Active</option>
-                                <option value="Inactive"@selected(old('status') == 'Inactive')>Inactive</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
                             </select>
                         </div>
                         
@@ -65,3 +66,38 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#type').on('change', function() {
+            var type = $(this).val();
+            // Make an AJAX request to fetch categories based on the selected type
+            $.ajax({
+                url: '{{ route('user.fetch.categories') }}',
+                method: 'GET',
+                data: { type: type },
+                success: function(response) {
+                    if (response.status === 1) {
+                        // Clear existing options
+                        $('#category_id').empty();
+                        // Add new options based on the response
+                        $.each(response.categories, function(key, value) {
+                            $('#category_id').append($('<option>', {
+                                value: key,
+                                text: value
+                            }));
+                        });
+                    } else {
+                        // If no categories are available for the selected type
+                        $('#category_id').empty().append($('<option>', {
+                            value: '',
+                            text: 'No Categories Available'
+                        }));
+                    }
+                }
+            });
+        });
+    });
+</script>
+@endpush

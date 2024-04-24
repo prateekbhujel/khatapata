@@ -21,9 +21,33 @@ class BudgetDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'budget.action')
-            ->setRowId('id');
+        ->addColumn('action', function($staff){
+            return '<form action="'.route('user.budgets.destroy', [$staff->id]).'" method="post">
+                        '.csrf_field().'
+                        '.method_field('delete').'
+                        <a href="'.route('user.budgets.edit', [$staff->id]).'" class="btn btn-dark btn-sm">
+                            <i class="fa-solid fa-edit me-2"></i>
+                        </a>
+                        <button type="submit" class="btn btn-danger btn-sm delete">
+                            <i class="fa-solid fa-times me-2"></i>
+                        </button>
+                    </form>';
+        })        
+        ->addColumn('created_at', function($data){
+            return $data->created_at->format('jS M, Y H:i:s'); 
+        })
+        ->addColumn('updated_at', function($data){
+            return $data->updated_at->format('jS M, Y'); 
+        })
+        ->addColumn('amount', function($data){
+            return   'Rs. ' .  number_format($data->amount);
+        })
+        ->addColumn('category', function($data){
+            return   $data->category['name'];
+        });
+        
     }
 
     /**
@@ -64,6 +88,9 @@ class BudgetDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
+            Column::make('amount'),
+            Column::make('type'),
+            Column::make('category'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')

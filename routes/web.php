@@ -86,6 +86,8 @@ Route::prefix('user')->name('user.')->group(function () {
             Route::get('/password/edit', [UsersPasswordController::class, 'edit'])->name('password.edit');
             
             Route::match(['put', 'patch'], '/password/update', [UsersPasswordController::class, 'update'])->name('password.update');
+            
+            Route::get('/fetch-categories', [BudgetsController::class, 'fetchCategories'])->name('fetch.categories');
 
             /**
              * Resoruces routes without show 
