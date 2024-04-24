@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\StaffsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\WebSettingsController;
+use App\Http\Controllers\User\BudgetsController;
 use App\Http\Controllers\User\ExpensesController;
 use App\Http\Controllers\User\CategoriesController;
 use App\Http\Controllers\User\IncomesController;
@@ -86,15 +87,27 @@ Route::prefix('user')->name('user.')->group(function () {
             
             Route::match(['put', 'patch'], '/password/update', [UsersPasswordController::class, 'update'])->name('password.update');
 
+            /**
+             * Resoruces routes without show 
+            */
             Route::resources([
-                'categories'  => CategoriesController::class,
-                'expenses'    => ExpensesController::class,
-                'incomes'    => IncomesController::class,
+                'categories'    => CategoriesController::class,
+                'expenses'      => ExpensesController::class,
+                'incomes'       => IncomesController::class,
+                'budgets'       => BudgetsController::class,
             ], 
             [
                 'except'     => ['show']
-            ]);
 
+            ]);//End of Resource route
+            
+            // /**
+            //  * Resoruces routes with show  
+            // */
+            // Route::resources([
+            //    ''               => '',
+
+            // ]);//End Of Resoruce route
 
         });//End of active-only middleware
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
+            $table->string('name');
             $table->double('amount');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();

@@ -21,20 +21,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="{{ route('user.expenses.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.expenses.*') ? 'active' : '' }}" href="{{ route('user.expenses.index') }}">
                             <i class="fas fa-money-bill-wave me-2"></i>Expenses
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="{{ route('user.incomes.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.incomes.*') ? 'active' : '' }}" href="{{ route('user.incomes.index') }}">
                             <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item" href="#">
-                            <i class="fas fa-balance-scale me-2"></i>Plans
+                        <a class="nav-link nav-item {{ request()->routeIs('user.budgets.*') ? 'active' : '' }}" href="{{ route('user.budgets.index') }}">
+                            <i class="fas fa-balance-scale me-2"></i>Budget
                         </a>
                     </li>
 
