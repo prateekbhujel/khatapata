@@ -68,20 +68,22 @@
 @endsection
 
 @push('scripts')
+
 <script>
+    
     $(document).ready(function() {
         $('#type').on('change', function() {
             var type = $(this).val();
-            // Make an AJAX request to fetch categories based on the selected type
+
             $.ajax({
                 url: '{{ route('user.fetch.categories') }}',
                 method: 'GET',
                 data: { type: type },
                 success: function(response) {
                     if (response.status === 1) {
-                        // Clear existing options
+ 
                         $('#category_id').empty();
-                        // Add new options based on the response
+
                         $.each(response.categories, function(key, value) {
                             $('#category_id').append($('<option>', {
                                 value: key,
@@ -89,7 +91,6 @@
                             }));
                         });
                     } else {
-                        // If no categories are available for the selected type
                         $('#category_id').empty().append($('<option>', {
                             value: '',
                             text: 'No Categories Available'

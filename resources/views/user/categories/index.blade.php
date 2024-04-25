@@ -47,6 +47,7 @@
                             </div>
                             <div class="col-auto">
                                 <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+                                <button type="submit" id="reset" class="btn btn-danger text-light btn-sm" onclick="resetForm()">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -90,6 +91,13 @@
                 dataTable.ajax.url(newUrl).load();
             });
         });
+        
+        function resetForm() 
+        {
+            $('input[name="status"]').prop('checked', false);
+            $('input[name="type"]').prop('checked', false);
+            window.location.reload();
+        }
     </script>
 
 @endpush

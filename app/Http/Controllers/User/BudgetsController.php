@@ -6,7 +6,6 @@ use App\DataTables\BudgetDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Budget;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,36 +56,53 @@ class BudgetsController extends Controller
     }//End Method
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Budget $budget)
     {
-        //
-    }
+        if(Auth::id() != $budget->user_id)
+            return redirect()->back()->withErrors('Access Denined, Cannot edit Selected Budget.');
+
+        return view('user.budgets.edit', compact('budget'));
+
+    }//End Method
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Budget $budget)
     {
-        //
-    }
+        
+        $validated = $request->validate([
+            'name'          => 'required|string',
+            'category_id'   => 'required|exists:categories,id',
+            'type'          => 'required|in:Expense,Income',
+            'status'        => 'required|in:Active,Inactive',
+            'amount'        => 'required|numeric|min:0', 
+        ]);
+        $validated['user_id'] = Auth::user()->id;
+
+      $budget->update($validated);
+
+        return to_route('user.budgets.index')->with('success', 'Budget Updated.');
+
+
+    }//End Method
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Budget $budget)
     {
-        //
-    }
+        if (Auth::id() !== $budget->user_id) 
+            return redirect()->back()->withErrors('Access denied: Cannot Delete Selected Budget.');
+
+
+        $budget->delete();
+
+        return redirect()->back()->with('success', 'Budget removed successfully.');
+
+    }//End Method
 
     /** 
      * fetches the category in corespond to type:(Income, Expense)
@@ -94,6 +110,7 @@ class BudgetsController extends Controller
     public function fetchCategories(Request $request)
     {
         $type = $request->get('type');
+
         $categories = Category::where('type', $type)
                                ->where('user_id', Auth::id())
                                ->pluck('name', 'id')
@@ -109,5 +126,6 @@ class BudgetsController extends Controller
             'status' => 1,
             'categories' => $categories
         ]);
+
     }//End Method
 }

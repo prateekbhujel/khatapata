@@ -52,16 +52,12 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
-        // Check if the current user is the owner of the category
         if (Auth::id() !== $category->user_id) 
-        {
-            // If not the owner, redirect back with an error message
-            return redirect()->back()->withErrors('You are not authorized to edit this category.');
-        }
-    
-        // If the current user is the owner, proceed to show the edit view
+            return redirect()->back()->withErrors('Access Denined, Cannot edit Selected Category');
+
         return view('user.categories.edit', compact('category'));
-    }
+        
+    }//End Method
     
 
     /**
@@ -87,17 +83,12 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        // Check if the current user is the owner of the category
         if (Auth::id() !== $category->user_id) 
-        {
-            // If not the owner, redirect back with an error message
             return redirect()->back()->withErrors('Access denied: You are not authorized to delete this category.');
-        }
 
-        // If the current user is the owner, proceed to delete the category
+
         $category->delete();
 
-        // Redirect back with a success message
         return redirect()->back()->with('success', 'Category removed successfully.');
         
     }//End Method
