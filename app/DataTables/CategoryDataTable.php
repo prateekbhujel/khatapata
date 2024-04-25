@@ -75,10 +75,7 @@ class CategoryDataTable extends DataTable
             ->minifiedAjax()
             ->orderBy(1)
             ->selectStyleSingle()
-            ->buttons([
-                ['extend' => 'excel', 'className' => 'btn btn-success', 'text' => 'Export Excel'],
-                ['extend' => 'pdf', 'className' => 'btn btn-danger', 'text' => 'Export PDF'],
-            ]);
+            ->buttons([]);
     }
 
     /**

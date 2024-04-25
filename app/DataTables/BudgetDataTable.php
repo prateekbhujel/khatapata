@@ -85,14 +85,7 @@ class BudgetDataTable extends DataTable
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+                    ->buttons([]);
     }
 
     /**
@@ -101,11 +94,10 @@ class BudgetDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
             Column::make('name'),
             Column::make('type'),
-            Column::make('status'),
             Column::make('category'),
+            Column::make('status'),
             Column::make('amount'),
             Column::make('created_at'),
             Column::make('updated_at'),

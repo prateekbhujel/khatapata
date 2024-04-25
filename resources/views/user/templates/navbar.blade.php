@@ -19,10 +19,10 @@
                             <i class="fa-solid fa-th-list me-2"></i>Categories
                         </a>
                     </li>
-
+                    
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.expenses.*') ? 'active' : '' }}" href="{{ route('user.expenses.index') }}">
-                            <i class="fas fa-money-bill-wave me-2"></i>Expenses
+                        <a class="nav-link nav-item {{ request()->routeIs('user.budgets.*') ? 'active' : '' }}" href="{{ route('user.budgets.index') }}">
+                            <i class="fas fa-balance-scale me-2"></i>Budget
                         </a>
                     </li>
 
@@ -31,10 +31,10 @@
                             <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>
-
+                    
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.budgets.*') ? 'active' : '' }}" href="{{ route('user.budgets.index') }}">
-                            <i class="fas fa-balance-scale me-2"></i>Budget
+                        <a class="nav-link nav-item {{ request()->routeIs('user.expenses.*') ? 'active' : '' }}" href="{{ route('user.expenses.index') }}">
+                            <i class="fas fa-money-bill-wave me-2"></i>Expenses
                         </a>
                     </li>
 
