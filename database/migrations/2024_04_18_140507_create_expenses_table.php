@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->text('description')->nullable();
             $table->text('receipts')->nullable();
+            $table->date('income_date');
             $table->timestamps();
         });
     }

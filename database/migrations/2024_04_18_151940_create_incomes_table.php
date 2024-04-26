@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();;
             $table->foreignIdFor(Category::class)->constrained();;
-            $table->integer('amount');
-            $table->text('source')->nullable();
+            $table->double('amount');
+            $table->date('income_date');
             $table->timestamps();
         });
     }
