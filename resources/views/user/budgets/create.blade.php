@@ -41,7 +41,9 @@
                             <label for="category_id" class="form-label">Category</label>
                             <select name="category_id" id="category_id" class="form-select" required>
                                 <option selected disabled>Select Category</option>
-                                <!-- Categories dropdown will be populated dynamically using JavaScript -->
+                               @foreach ($categories as $category)
+                                   <option value="{{ $category->id }}">{{ $category->name }}</option>
+                               @endforeach
                             </select>
                         </div>   
                                                                   
@@ -66,39 +68,3 @@
 </div>
 
 @endsection
-
-@push('scripts')
-
-<script>
-    
-    $(document).ready(function() {
-        $('#type').on('change', function() {
-            var type = $(this).val();
-
-            $.ajax({
-                url: '{{ route('user.fetch.categories') }}',
-                method: 'GET',
-                data: { type: type },
-                success: function(response) {
-                    if (response.status === 1) {
- 
-                        $('#category_id').empty();
-
-                        $.each(response.categories, function(key, value) {
-                            $('#category_id').append($('<option>', {
-                                value: key,
-                                text: value
-                            }));
-                        });
-                    } else {
-                        $('#category_id').empty().append($('<option>', {
-                            value: '',
-                            text: 'No Categories Available'
-                        }));
-                    }
-                }
-            });
-        });
-    });
-</script>
-@endpush

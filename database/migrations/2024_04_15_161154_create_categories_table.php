@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->foreignIdFor(User::class)->constrained();
+            $table->string('name');
             $table->enum('type', ['Expense', 'Income'])->default('Expense');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();

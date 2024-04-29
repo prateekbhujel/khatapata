@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained();
             $table->string('name');
             $table->double('amount');
-            $table->enum('type', ['Expense', 'Income'])->default('Expense');
             $table->enum('status', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });

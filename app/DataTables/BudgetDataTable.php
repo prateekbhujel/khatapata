@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Budget;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -56,21 +55,7 @@ class BudgetDataTable extends DataTable
      */
     public function query(Budget $model): QueryBuilder
     {
-        $query = $model->newQuery()->where('user_id', Auth::user()->id);
-        
-        if (request()->has('status')) {
-            if (request('status') !== 'All') {
-                $query->where('status', request('status'));
-            }
-        }
-        
-        if (request()->has('type')) {
-            if (request('type') !== 'All') {
-                $query->where('type', request('type'));
-            }
-        }
-
-        return $query;
+        return $model->newQuery();
     }
 
     /**
@@ -95,17 +80,16 @@ class BudgetDataTable extends DataTable
     {
         return [
             Column::make('name'),
-            Column::make('type'),
             Column::make('category'),
-            Column::make('status'),
             Column::make('amount'),
+            Column::make('status'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(100)
-                  ->addClass('text-center'),
+            ->exportable(false)
+            ->printable(false)
+            ->width(100)
+            ->addClass('text-center'),
         ];
     }
 

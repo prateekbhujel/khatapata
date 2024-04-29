@@ -42,7 +42,9 @@
                             <label for="category_id" class="form-label">Category</label>
                             <select name="category_id" id="category_id" class="form-select" required>
                                 <option selected disabled>Select Category</option>
-                                <!-- Categories dropdown will be populated dynamically using JavaScript -->
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" @selected(old('category_id', $budget->category_id) == $category->id)>{{ $category->name }}</option>
+                                @endforeach
                             </select>
                         </div>   
                                                                   
@@ -67,52 +69,3 @@
 </div>
 
 @endsection
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        // Fetch categories when the page is loaded
-        var budgetType = $('#type').val();
-       fetchCategories(budgetType);
-
-        $('#type').on('change', function() {
-            var type = $(this).val();
-            // Make an AJAX request to fetch categories based on the selected type
-            fetchCategories(type);
-        });
-
-        // Function to fetch categories based on the selected type
-        function fetchCategories(type = null) {
-            // Make AJAX request
-            $.ajax({
-                url: '{{ route('user.fetch.categories') }}',
-                method: 'GET',
-                data: { type: type },
-                success: function(response) {
-                    if (response.status === 1) {
-                        // Clear existing options
-                        $('#category_id').empty();
-                        // Add new options based on the response
-                        $.each(response.categories, function(key, value) {
-                            $('#category_id').append($('<option>', {
-                                value: key,
-                                text: value
-                            }));
-                        });
-                    } else {
-                        // If no categories are available for the selected type
-                        $('#category_id').empty().append($('<option>', {
-                            value: '',
-                            text: 'No Categories Available'
-                        }));
-                    }
-                },
-                error: function() {
-                    // Handle error
-                    console.error('Failed to fetch categories');
-                }
-            });
-        }
-    });
-</script>
-@endpush

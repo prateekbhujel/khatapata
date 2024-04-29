@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -15,9 +16,12 @@ return new class extends Migration
     {
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();;
-            $table->foreignIdFor(Category::class)->constrained();;
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Category::class)->constrained();
+            $table->foreignIdFor(Account::class)->constrained();
             $table->double('amount');
+            $table->text('income_receipts');
+            $table->text('income_note');
             $table->date('income_date');
             $table->timestamps();
         });

@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class Income extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $gaurded = [];
+
+    protected $casts = [
+        'income_receipts' => 'array',
+    ];
 
     /**
      * Relationship with the User model.
@@ -31,21 +35,24 @@ class Income extends Model
     }//End Method
 
     /**
-     *  Checks if the user has set an Income or not.
-    */
-    public static function userHasIncome()
+     * Relationship with the Account model.
+     */
+    public function account()
     {
-        return Income::where('user_id', Auth::id())->exists();
+        return $this->belongsTo(Account::class);
         
     }//End Method
 
-    /**
-     * Get the budgets associated with the income.
-    */
-    public function budgets()
-    {
-        return $this->belongsToMany(Budget::class);
 
-    }//End Method
+    /** 
+     * Gets the first Item as an Thumnail for Image of an product.
+    */
+    protected function thumbnail(): Attribute
+    {
+        return Attribute::get(function($value, $attr) {
+            return json_decode($attr['receipts'], true)[0];
+        });
+
+    }//End Mehtod
 
 }

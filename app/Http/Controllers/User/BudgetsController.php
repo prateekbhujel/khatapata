@@ -27,7 +27,8 @@ class BudgetsController extends Controller
     {
         $categories = Category::where([
             ['status', 'Active'],
-            ['user_id', Auth::id()]
+            ['user_id', Auth::id()],
+            ['type', 'Expense']
         ])->get();
         
 
@@ -43,7 +44,6 @@ class BudgetsController extends Controller
         $validated = $request->validate([
             'name'          => 'required|string',
             'category_id'   => 'required|exists:categories,id',
-            'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive',
             'amount'        => 'required|numeric|min:0', 
         ]);
@@ -62,8 +62,14 @@ class BudgetsController extends Controller
     {
         if(Auth::id() != $budget->user_id)
             return redirect()->back()->withErrors('Access Denined, Cannot edit Selected Budget.');
+            
+        $categories = Category::where([
+            ['status', 'Active'],
+            ['user_id', Auth::id()],
+            ['type', 'Expense']
+        ])->get();
 
-        return view('user.budgets.edit', compact('budget'));
+        return view('user.budgets.edit', compact('budget', 'categories'));
 
     }//End Method
 
@@ -76,7 +82,6 @@ class BudgetsController extends Controller
         $validated = $request->validate([
             'name'          => 'required|string',
             'category_id'   => 'required|exists:categories,id',
-            'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive',
             'amount'        => 'required|numeric|min:0', 
         ]);
@@ -103,29 +108,5 @@ class BudgetsController extends Controller
         return redirect()->back()->with('success', 'Budget removed successfully.');
 
     }//End Method
-
-    /** 
-     * fetches the category in corespond to type:(Income, Expense)
-    */
-    public function fetchCategories(Request $request)
-    {
-        $type = $request->get('type');
-
-        $categories = Category::where('type', $type)
-                               ->where('user_id', Auth::id())
-                               ->pluck('name', 'id')
-                               ->toArray();
     
-        if (empty($categories)) {
-            return response()->json([
-                'status' => 0
-            ]);
-        }
-    
-        return response()->json([
-            'status' => 1,
-            'categories' => $categories
-        ]);
-
-    }//End Method
 }

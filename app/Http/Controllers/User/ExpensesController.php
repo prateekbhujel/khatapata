@@ -17,10 +17,6 @@ class ExpensesController extends Controller
      */
     public function index(ExpenseDataTable $dataTable)
     {
-        if(!Income::userHasIncome())
-            return back()->withErrors('Income not set. Please set your income before accessing expenses.');
-
-        return $dataTable->render('user.expenses.index');
 
     }//End method
 
@@ -29,12 +25,7 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('user_id', Auth::id())
-        ->where('status', 'Active')
-        ->where('type', 'expense')
-        ->get();
-
-        return view('user.expenses.create', 'categories');
+  
 
     }//End Method
 
@@ -61,13 +52,7 @@ class ExpensesController extends Controller
      */
     public function edit(Expense $expense)
     {
-        $categories = Category::where('user_id', Auth::id())
-                                ->where('status', 'Active')
-                                ->where('type', 'income')
-                                ->get();
-
-        return view('user.expenses.edit', 'categories', 'expense');
-
+       
     }//End Method
 
     /**

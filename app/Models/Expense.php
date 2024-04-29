@@ -13,7 +13,7 @@ class Expense extends Model
     protected $gaurded = [];
 
     protected $casts = [
-        'receipts' => 'array',
+        'expense_receipts' => 'array',
     ];
     
     
@@ -34,6 +34,25 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
 
     }//End Method
+
+    /**
+    * Get the budgets associated with the expense.
+    */
+    public function budgets()
+    {
+        return $this->belongsToMany(Budget::class);
+        
+    }//End Method
+    
+    /**
+     * Relationship with the Account model.
+     */
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+
+    }//End Method
+
     
     /** 
      * Gets the first Item as an Thumnail for Image of an product.
@@ -45,14 +64,4 @@ class Expense extends Model
         });
 
     }//End Mehtod
-
-    /**
-    * Get the budgets associated with the expense.
-    */
-    public function budgets()
-    {
-        return $this->belongsToMany(Budget::class);
-        
-    }//End Method
-
 }

@@ -55,15 +55,6 @@ class Budget extends Model
 
     }//End Method
 
-    /**
-    * Get the incomes associated with the budget.
-    */
-    public function incomes()
-    {
-        return $this->belongsToMany(Income::class);
-
-    }//End Method
-
 
 }
 
