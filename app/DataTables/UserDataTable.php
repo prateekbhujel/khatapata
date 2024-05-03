@@ -36,10 +36,10 @@ class UserDataTable extends DataTable
                     </form>';
         })        
         ->addColumn('created_at', function($data){
-            return $data->created_at->format('jS M, Y'); 
+            return $data->created_at->toDayDateTimeString(); 
         })
         ->addColumn('updated_at', function($data){
-            return $data->updated_at->format('jS M, Y'); 
+            return $data->updated_at->toDayDateTimeString(); 
         });
     }
 

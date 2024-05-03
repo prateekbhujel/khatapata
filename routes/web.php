@@ -51,6 +51,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ]);
 
         });//End of active-only middleware
+        
+        /** Inactive Page View **/
         Route::get('/inactive', function() {
             return view('admin.errors.inactive');
          })->name('errors.inactive');
@@ -111,9 +113,10 @@ Route::prefix('user')->name('user.')->group(function () {
 
         });//End of active-only middleware
 
+        /** Inactive Page View **/
         Route::get('/inactive', function() {
         return view('user.errors.inactive');
-        })->name('errros.inactive');
+        })->name('errors.inactive');
         
     });//End Middleware group.
 
