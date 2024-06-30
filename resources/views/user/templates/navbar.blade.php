@@ -15,25 +15,25 @@
                 @if(auth()->user()->status == 'Active')
                             
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.categories.*') ? 'active' : '' }}" href="{{ route('user.categories.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.category.*') ? 'active' : '' }}" href="{{ route('user.category.index') }}">
                             <i class="fa-solid fa-th-list me-2"></i>Categories
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.budgets.*') ? 'active' : '' }}" href="{{ route('user.budgets.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.budget.*') ? 'active' : '' }}" href="{{ route('user.budget.index') }}">
                             <i class="fas fa-balance-scale me-2"></i>Budget
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.incomes.*') ? 'active' : '' }}" href="{{ route('user.incomes.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.icnome.*') ? 'active' : '' }}" href="{{ route('user.income.index') }}">
                             <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.expenses.*') ? 'active' : '' }}" href="{{ route('user.expenses.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.expense.*') ? 'active' : '' }}" href="{{ route('user.expense.index') }}">
                             <i class="fas fa-money-bill-wave me-2"></i>Expenses
                         </a>
                     </li>

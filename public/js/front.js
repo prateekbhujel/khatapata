@@ -40117,6 +40117,31 @@ $(function () {
     }
   });
 });
+
+// For Categories secction
+$(document).ready(function () {
+  // Form submission
+  $('#filterForm').on('submit', function (e) {
+    e.preventDefault();
+    // Serialize form data
+    var formData = $(this).serialize();
+    // Get the current AJAX URL of the DataTable
+    var dataTable = $('#category-table').DataTable();
+    var ajaxUrl = dataTable.ajax.url();
+    var newUrl;
+    if (ajaxUrl.includes('?')) {
+      newUrl = ajaxUrl + '&' + formData;
+    } else {
+      newUrl = ajaxUrl + '?' + formData;
+    }
+    dataTable.ajax.url(newUrl).load();
+  });
+});
+function resetForm() {
+  $('input[name="status"]').prop('checked', false);
+  $('input[name="type"]').prop('checked', false);
+  window.location.reload();
+}
 })();
 
 /******/ })()

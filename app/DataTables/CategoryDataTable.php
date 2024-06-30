@@ -21,10 +21,10 @@ class CategoryDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($category) {
-                return '<form action="' . route('user.categories.destroy', [$category->id]) . '" method="post">
+                return '<form action="' . route('user.category.destroy', [$category->id]) . '" method="post">
                             ' . csrf_field() . '
                             ' . method_field('delete') . '
-                            <a href="' . route('user.categories.edit', [$category->id]) . '" class="btn btn-dark btn-sm">
+                            <a href="' . route('user.category.edit', [$category->id]) . '" class="btn btn-dark btn-sm">
                                 <i class="fa-solid fa-edit me-2"></i>
                             </a>
                             <button type="submit" class="btn btn-danger btn-sm delete">

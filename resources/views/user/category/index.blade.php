@@ -12,7 +12,7 @@
                     <h1>Categories</h1>
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('user.categories.create') }}" class="btn btn-dark">
+                    <a href="{{ route('user.category.create') }}" class="btn btn-dark">
                         <i class="fa-solid fa-plus me-2"></i>Add Category
                     </a>
                 </div>
@@ -56,48 +56,16 @@
 
             <!-- DataTable -->
             <div class="row mt-3">
+
                 <div class="col-md-12">
+
                     {{ $dataTable->table(['class' => 'table table-bordered table-striped']) }}
+
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
 @endsection
-
-@push('scripts')
-
-    {{ $dataTable->scripts() }}
-
-    <script>
-        $(document).ready(function() 
-        {
-            // Form submission
-            $('#filterForm').on('submit', function(e) 
-            {
-                e.preventDefault();
-                // Serialize form data
-                var formData = $(this).serialize();
-                // Get the current AJAX URL of the DataTable
-                var dataTable = $('#category-table').DataTable();
-                var ajaxUrl = dataTable.ajax.url();
-                var newUrl;
-                if (ajaxUrl.includes('?')) {
-                    newUrl = ajaxUrl + '&' + formData;
-                } else {
-                    newUrl = ajaxUrl + '?' + formData;
-                }
-                dataTable.ajax.url(newUrl).load();
-            });
-        });
-        
-        function resetForm() 
-        {
-            $('input[name="status"]').prop('checked', false);
-            $('input[name="type"]').prop('checked', false);
-            window.location.reload();
-        }
-    </script>
-
-@endpush

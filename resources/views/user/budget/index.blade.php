@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div class="col-auto">
-                    <a href="{{ route('user.budgets.create') }}" class="btn btn-dark">
+                    <a href="{{ route('user.budget.create') }}" class="btn btn-dark">
                         <i class="fa-solid fa-plus me-2"></i>Add Budget
                     </a>
                 </div>

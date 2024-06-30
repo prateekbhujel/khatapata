@@ -16,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function index(CategoryDataTable $dataTable)
     {
-        return $dataTable->with(['model' => new Category()])->render('user.categories.index');
+        return $dataTable->with(['model' => new Category()])->render('user.category.index');
 
     }//End Method
 
@@ -25,7 +25,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('user.categories.create');
+        return view('user.category.create');
 
     }//End Method
 
@@ -43,7 +43,7 @@ class CategoriesController extends Controller
 
         Category::create($validated);
 
-        return to_route('user.categories.index')->with('success', 'Categories Created.');
+        return to_route('user.category.index')->with('success', 'Category Created.');
 
     }//End Method
 
@@ -55,7 +55,7 @@ class CategoriesController extends Controller
         if (Auth::id() !== $category->user_id) 
             return redirect()->back()->withErrors('Access Denined, Cannot edit Selected Category');
 
-        return view('user.categories.edit', compact('category'));
+        return view('user.category.edit', compact('category'));
         
     }//End Method
     
@@ -74,7 +74,7 @@ class CategoriesController extends Controller
 
         $category->update($validated);
         
-        return to_route('user.categories.index')->with('success', 'Categories Updated.');
+        return to_route('user.category.index')->with('success', 'Category Updated.');
 
     }//End Method
 

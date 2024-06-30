@@ -52,7 +52,12 @@
 
     <script src="{{ url('public/js/admin.js?123') }}"></script>
 
+    {{-- Initalizing DataTable Globally --}}
+    @if (!empty($dataTable))
+      
+      {{ $dataTable->scripts(attributes: ['type' => 'module']) }}  
 
-    @stack('scripts')
+    @endif 
+
 </body>
 </html>

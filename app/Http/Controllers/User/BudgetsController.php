@@ -16,7 +16,7 @@ class BudgetsController extends Controller
      */
     public function index(BudgetDataTable $dataTable)
     {
-        return $dataTable->render('user.budgets.index');
+        return $dataTable->render('user.budget.index');
 
     }//End Method
 
@@ -32,7 +32,7 @@ class BudgetsController extends Controller
         ])->get();
         
 
-        return view('user.budgets.create', compact('categories'));
+        return view('user.budget.create', compact('categories'));
         
     }//End Method
 
@@ -51,7 +51,7 @@ class BudgetsController extends Controller
 
         Budget::create($validated);
 
-        return to_route('user.budgets.index')->with('success', 'Budget Created.');
+        return to_route('user.budget.index')->with('success', 'Budget Created.');
 
     }//End Method
 
@@ -69,7 +69,7 @@ class BudgetsController extends Controller
             ['type', 'Expense']
         ])->get();
 
-        return view('user.budgets.edit', compact('budget', 'categories'));
+        return view('user.budget.edit', compact('budget', 'categories'));
 
     }//End Method
 
@@ -89,7 +89,7 @@ class BudgetsController extends Controller
 
       $budget->update($validated);
 
-        return to_route('user.budgets.index')->with('success', 'Budget Updated.');
+        return to_route('user.budget.index')->with('success', 'Budget Updated.');
 
 
     }//End Method

@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('user.categories.update', [$category->id]) }}" method="post">
+                <form action="{{ route('user.expense.update', [$category->id]) }}" method="post">
                     @csrf
                     @method('patch')
 

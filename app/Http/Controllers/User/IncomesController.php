@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class IncomesController extends Controller
 {
@@ -16,22 +17,17 @@ class IncomesController extends Controller
      */
     public function index(IncomeDataTable $dataTable)
     {
-        return $dataTable->render('user.incomes.index');
-        
-    }//End Method
+        return $dataTable->render('user.income.index');
 
+    }//End Method
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        $categories = Category::where('user_id', Auth::id())
-                                ->where('status', 'Active')
-                                ->where('type', 'income')
-                                ->get();
-
-        return view('user.incomes.create', 'categories');
+        
+        return view('user.income.create');
 
     }//End Method
 
@@ -41,7 +37,14 @@ class IncomesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Income::create($request->validate([
+            'name'          => 'required|string',
+            'amount'        => 'required|numeric|min:0',
+        ]) + [
+            'user_id' => Auth::id()
+        ]);
+
+        return to_route('user.income.index')->with('success', 'Income Created.');
 
     }//End Method
 
@@ -66,7 +69,7 @@ class IncomesController extends Controller
         ->where('type', 'income')
         ->get();
 
-        return view('user.incomes.edit', 'categories', 'income');
+        return view('user.income.edit', compact('categories', 'income'));
 
     }//End Method
 

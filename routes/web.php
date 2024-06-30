@@ -93,23 +93,15 @@ Route::prefix('user')->name('user.')->group(function () {
              * Resoruces routes without show 
             */
             Route::resources([
-                'categories'    => CategoriesController::class,
-                'expenses'      => ExpensesController::class,
-                'incomes'       => IncomesController::class,
-                'budgets'       => BudgetsController::class,
+                'category'    => CategoriesController::class,
+                'expense'      => ExpensesController::class,
+                'income'       => IncomesController::class,
+                'budget'       => BudgetsController::class,
             ], 
             [
                 'except'     => ['show']
 
             ]);//End of Resource route
-            
-            // /**
-            //  * Resoruces routes with show  
-            // */
-            // Route::resources([
-            //    ''               => '',
-
-            // ]);//End Of Resoruce route
 
         });//End of active-only middleware
 

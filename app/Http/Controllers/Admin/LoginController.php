@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
 
     use AuthenticatesUsers;
 
-    protected $redirectTo;
+    protected string $redirectTo;
 
     public function __construct()
     {
@@ -22,13 +23,13 @@ class LoginController extends Controller
     }
 
 
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return view('admin.login.show');
     }
 
 
-    protected function guard()
+    protected function guard(): object
     {
         return Auth::guard('cms');
     }
@@ -37,4 +38,6 @@ class LoginController extends Controller
     // {
     //     return array_merge($request->only($this->username(), 'password'), ['status' => 'Active']);
     // }
+
+
 }

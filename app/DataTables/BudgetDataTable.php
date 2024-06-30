@@ -23,11 +23,11 @@ class BudgetDataTable extends DataTable
     {
         
         return (new EloquentDataTable($query))
-        ->addColumn('action', function($staff){
-            return '<form action="'.route('user.budgets.destroy', [$staff->id]).'" method="post">
+        ->addColumn('action', function($budget){
+            return '<form action="'.route('user.budget.destroy', [$budget->id]).'" method="post">
                         '.csrf_field().'
                         '.method_field('delete').'
-                        <a href="'.route('user.budgets.edit', [$staff->id]).'" class="btn btn-dark btn-sm">
+                        <a href="'.route('user.budget.edit', [$budget->id]).'" class="btn btn-dark btn-sm">
                             <i class="fa-solid fa-edit me-2"></i>
                         </a>
                         <button type="submit" class="btn btn-danger btn-sm delete">

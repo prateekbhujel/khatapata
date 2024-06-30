@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('user.categories.store') }}" method="post">
+                <form action="{{ route('user.expense.store') }}" method="post">
                     @csrf
 
                     <div class="col-5 mx-auto">
