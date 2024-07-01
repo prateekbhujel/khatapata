@@ -68,10 +68,8 @@ class CategoriesController extends Controller
             'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive'
         ]);
-
         
         $validated['user_id'] = $category->user_id;
-
 
         // Check if the category is being used in other tables
         $inUseInBudgets = $category->budgets()->where('user_id', Auth::id())->exists();

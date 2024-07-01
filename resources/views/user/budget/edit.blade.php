@@ -41,12 +41,12 @@
                         
                         <div class="mb-3">
                             <label for="start_date" class="form-label">Start Date</label>
-                            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ old('start_date', $budget->start_date->format('Y-m-d')) }}" required>
+                            <input type="date" name="start_date" id="start_date" class="form-control" value="{{ old('start_date', $budget->start_date) }}" required>
                         </div>
                         
                         <div class="mb-3">
                             <label for="end_date" class="form-label">End Date</label>
-                            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ old('end_date', $budget->end_date->format('Y-m-d')) }}" required>
+                            <input type="date" name="end_date" id="end_date" class="form-control" value="{{ old('end_date', $budget->end_date) }}" required>
                         </div>
 
                         <div class="mb-3">

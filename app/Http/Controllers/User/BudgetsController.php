@@ -82,18 +82,15 @@ class BudgetsController extends Controller
     public function update(Request $request, Budget $budget)
     {
         
-        $validated = $request->validate([
+        $budget->update($request->validate([
             'name'          => 'required|string',
             'category_id'   => 'required|exists:categories,id',
             'status'        => 'required|in:Active,Inactive',
             'amount'        => 'required|numeric|min:0', 
-        ]);
-        $validated['user_id'] = Auth::user()->id;
+        ])+['user_id'       => Auth::id()]);
 
-      $budget->update($validated);
 
         return to_route('user.budget.index')->with('success', 'Budget Updated.');
-
 
     }//End Method
 
