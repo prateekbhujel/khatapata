@@ -34,14 +34,11 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        Category::create($request->validate([
             'name'          => 'required|min:5|string|max:100',
             'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive',
-        ]);
-        $validated['user_id'] = Auth::user()->id;
-
-        Category::create($validated);
+        ])+ ['user_id'       => Auth::id()]);
 
         return to_route('user.category.index')->with('success', 'Category Created.');
 
@@ -54,6 +51,7 @@ class CategoriesController extends Controller
     {
         if (Auth::id() !== $category->user_id) 
             return redirect()->back()->withErrors('Access Denined, Cannot edit Selected Category');
+        
 
         return view('user.category.edit', compact('category'));
         
@@ -70,7 +68,20 @@ class CategoriesController extends Controller
             'type'          => 'required|in:Expense,Income',
             'status'        => 'required|in:Active,Inactive'
         ]);
+
+        
         $validated['user_id'] = $category->user_id;
+
+
+        // Check if the category is being used in other tables
+        $inUseInBudgets = $category->budgets()->where('user_id', Auth::id())->exists();
+        $inUseInIncomes = $category->incomes()->where('user_id', Auth::id())->exists();
+        $inUseInExpenses = $category->expenses()->where('user_id', Auth::id())->exists();
+
+        if ($category->status == 'Active' && ($inUseInBudgets || $inUseInIncomes || $inUseInExpenses)) {
+            if($request->status == 'Inactive')
+                return redirect()->back()->withErrors('You cannot set Inactive status for an  Active category.');
+        }
 
         $category->update($validated);
         
@@ -83,13 +94,23 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        if (Auth::id() !== $category->user_id) 
+        if (Auth::id() !== $category->user_id) {
             return redirect()->back()->withErrors('Access denied: You are not authorized to delete this category.');
+        }
 
+        // Check if the category is being used in other tables
+        $inUseInBudgets = $category->budgets()->where('user_id', Auth::id())->exists();
+        $inUseInIncomes = $category->incomes()->where('user_id', Auth::id())->exists();
+        $inUseInExpenses = $category->expenses()->where('user_id', Auth::id())->exists();
+
+        if ($inUseInBudgets || $inUseInIncomes || $inUseInExpenses) {
+            return redirect()->back()->withErrors('Cannot delete this category as it is being used in other records.');
+        }
 
         $category->delete();
 
         return redirect()->back()->with('success', 'Category removed successfully.');
-        
+
     }//End Method
+
 }

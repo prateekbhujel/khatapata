@@ -31,7 +31,9 @@ class BudgetsController extends Controller
             ['type', 'Expense']
         ])->get();
         
-
+        if($categories->count() == 0){
+            return to_route('user.budget.index')->withErrors( 'Please at least one category for expense and check if it\'s active.' );
+        }
         return view('user.budget.create', compact('categories'));
         
     }//End Method
@@ -41,15 +43,16 @@ class BudgetsController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        Budget::create(
+            $request->validate([
             'name'          => 'required|string',
+            'amount'        => 'required|numeric|min:0',
             'category_id'   => 'required|exists:categories,id',
-            'status'        => 'required|in:Active,Inactive',
-            'amount'        => 'required|numeric|min:0', 
+            'start_date'    => 'required|date|after_or_equal:today',
+            'end_date'      => 'required|date|after:start_date',
+        ]) + [
+            'user_id'       => Auth::id()
         ]);
-        $validated['user_id'] = Auth::user()->id;
-
-        Budget::create($validated);
 
         return to_route('user.budget.index')->with('success', 'Budget Created.');
 
