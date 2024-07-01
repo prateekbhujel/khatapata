@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('user.dashboard.index') }}">
+        <a class="navbar-brand" href="{{ route('admin.dashboard.index') }}">
             @if ($settings && $settings->logo)
                 <img src="{{ asset($settings->logo) }}" alt="{{ $settings->name }}" class="navbar-brand-logo" style="max-width: 100px; height: auto;">
             @else

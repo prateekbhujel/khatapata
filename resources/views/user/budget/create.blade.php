@@ -29,15 +29,6 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="type" class="form-label">Type</label>
-                            <select name="type" id="type" class="form-select" required>
-                                <option selected disabled>Select Type</option>
-                                <option value="Expense">Expense</option>
-                                <option value="Income">Income</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
                             <label for="category_id" class="form-label">Category</label>
                             <select name="category_id" id="category_id" class="form-select" required>
                                 <option selected disabled>Select Category</option>

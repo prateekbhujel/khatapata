@@ -64,13 +64,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="favico" class="form-label">Favico</label>
+                            <label for="banner" class="form-label">Banner Image</label>
+                            <input type="file" name="banner" id="bannerInput" class="form-control" accept="image/*" data-preview="#banner-preview" data-existing="{{ $setting->banner ?? '' }}">
+                        </div>
+                        <div class="row mt-3" id="banner-preview"></div>
+                        
+                        <div class="mb-3">
+                            <label for="favico" class="form-label">Favico Image</label>
                             <input type="file" name="favico" id="favicoInput" class="form-control" accept="image/*" data-preview="#favico-preview" data-existing="{{ $setting->favico ?? '' }}">
                         </div>
                         <div class="row mt-3" id="favico-preview"></div>
                         
                         <div class="mb-3">
-                            <label for="logo" class="form-label">Logo</label>
+                            <label for="logo" class="form-label">Logo Image</label>
                             <input type="file" name="logo" id="logoInput" class="form-control" accept="image/*" data-preview="#logo-preview" data-existing="{{ $setting->logo ?? '' }}">
                         </div>
                         <div class="row my-3" id="logo-preview"></div>

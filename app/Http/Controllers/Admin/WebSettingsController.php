@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\WebSetting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager as Image;
 
 class WebSettingsController extends Controller
 {
@@ -36,11 +34,13 @@ class WebSettingsController extends Controller
             'website_title'             => 'nullable|min:1|max:150',
             'seo_description'           => 'nullable|min:1|max:20054',
             'seo_keywords'              => 'nullable|min:1|max:10000',
-            'favico'                    => 'image|max:512|mimes:jpeg,png',
-            'logo'                      => 'image|max:1024|mimes:jpeg,png',
+            'banner'                    => 'image|max:2048|mimes:jpeg,jpg,webp,png',
+            'favico'                    => 'image|max:512|mimes:jpeg,jpg,webp,png',
+            'logo'                      => 'image|max:1024|mimes:jpeg,jpg,webp,png',
         ]);
         
         $web_settings       = WebSetting::findOrFail($id);
+        $banner             = handleUpload('banner', $web_settings);
         $favico             = handleUpload('favico', $web_settings);
         $logo               = handleUpload('logo', $web_settings);
 
@@ -57,6 +57,7 @@ class WebSettingsController extends Controller
                 'website_title'         => $request->website_title,
                 'seo_description'       => $request->seo_description,
                 'seo_keywords'          => $request->seo_keywords,
+                'banner'                => (!empty($banner) ? $banner : $web_settings->banner),
                 'favico'                => (!empty($favico) ? $favico : $web_settings->favico),
                 'logo'                  => (!empty($logo) ? $logo : $web_settings->logo),
                 'updated_at'            => Carbon::now(),

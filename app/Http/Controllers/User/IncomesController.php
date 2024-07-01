@@ -37,11 +37,12 @@ class IncomesController extends Controller
      */
     public function store(Request $request)
     {
-        Income::create($request->validate([
+        Income::create(
+            $request->validate([
             'name'          => 'required|string',
             'amount'        => 'required|numeric|min:0',
         ]) + [
-            'user_id' => Auth::id()
+            'user_id'       => Auth::id()
         ]);
 
         return to_route('user.income.index')->with('success', 'Income Created.');

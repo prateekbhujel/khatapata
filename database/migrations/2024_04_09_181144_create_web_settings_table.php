@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('website_title')->nullable();
             $table->text('seo_description')->nullable();
             $table->string('seo_keywords')->nullable();
+            $table->text('banner')->nullable();
             $table->text('favico')->nullable();
             $table->text('logo')->nullable();
             $table->timestamps();

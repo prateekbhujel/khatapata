@@ -2,9 +2,9 @@
 
 @section('title', 'Login')
 
-@section('keywords', $settings->seo_keywords)
+@section('keywords', $settings->seo_keywords ?? '')
 
-@section('description', $settings->seo_description)
+@section('description', $settings->seo_description ?? '')
 
 @section('content')
 <div class="col-12">

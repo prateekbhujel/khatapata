@@ -8,7 +8,7 @@
                 <img src="{{ asset($settings->logo) }}" alt="{{ $settings->name }}" class="navbar-brand-logo" style="max-width: 100px; height: auto;">
             @else
                 <!-- If logo URL is not available, display the website name as text -->
-                <span class="navbar-brand-text">{{ $settings->name }}</span>
+                <span class="navbar-brand-text">{{ $settings->name ?? 'KhataPata' }}</span>
             @endif
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
