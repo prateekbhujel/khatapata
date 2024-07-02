@@ -34,33 +34,16 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
 
     }//End Method
-
-    /**
-    * Get the budgets associated with the expense.
-    */
-    public function budgets()
-    {
-        return $this->belongsToMany(Budget::class);
-        
-    }//End Method
     
-    /**
-     * Relationship with the Account model.
-     */
-    public function account()
-    {
-        return $this->belongsTo(Account::class);
-
-    }//End Method
-
     
     /** 
-     * Gets the first Item as an Thumnail for Image of an product.
+     * Gets the first Item as an thumnail for image of an tranasactions,
+     * In this case for Expenses.
     */
     protected function thumbnail(): Attribute
     {
         return Attribute::get(function($value, $attr) {
-            return json_decode($attr['receipts'], true)[0];
+            return json_decode($attr['expense_receipts'], true)[0];
         });
 
     }//End Mehtod

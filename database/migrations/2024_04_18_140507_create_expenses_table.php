@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Account;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
-            $table->foreignIdFor(Account::class)->constrained();
             $table->integer('amount');
             $table->text('expense_receipts')->nullable();
             $table->text('expense_note')->nullable();

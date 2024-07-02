@@ -86,13 +86,4 @@ class User extends Authenticatable
         
     }//End Method    
     
-    /**
-     * Relationship with the Account model.
-     * A user can have many account.
-    */
-    public function account()
-    {
-        return $this->hasMany(Account::class);
-        
-    }//End Method
 }

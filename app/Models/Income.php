@@ -34,23 +34,15 @@ class Income extends Model
 
     }//End Method
 
-    /**
-     * Relationship with the Account model.
-     */
-    public function account()
-    {
-        return $this->belongsTo(Account::class);
-        
-    }//End Method
-
 
     /** 
-     * Gets the first Item as an Thumnail for Image of an product.
+     * Gets the first Item as an Thumnail for Image of an Transaction
+     * In this case for Incomes.
     */
     protected function thumbnail(): Attribute
     {
         return Attribute::get(function($value, $attr) {
-            return json_decode($attr['receipts'], true)[0];
+            return json_decode($attr['income_receipts'], true)[0];
         });
 
     }//End Mehtod

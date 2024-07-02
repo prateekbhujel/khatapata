@@ -12,7 +12,6 @@ class Budget extends Model
     protected $fillable = ['user_id', 'category_id', 'name', 'amount', 'start_date', 'end_date', 'status'];
 
 
-
     /**
     * Get the user that owns the budget.
     */
@@ -28,21 +27,6 @@ class Budget extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-
-    }//End Method
-
-    /**
-    * Method to activate a budget and deactivate other active budgets for the user.
-    */
-    public function activate()
-    {
-        Budget::where('user_id', $this->user_id)
-            ->where('category_id', $this->category_id)
-            ->where('id', '!=', $this->id)
-            ->update(['status' => 'Inactive']);
-            
-        $this->status = 'Active';
-        $this->save();
 
     }//End Method
 
