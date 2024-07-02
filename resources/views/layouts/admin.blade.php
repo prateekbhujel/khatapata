@@ -13,8 +13,9 @@
     @routes
     
     @if (!empty($settings->favico))
-    <link rel="icon" href="{{ asset($settings->favico) }}" type="image/x-icon">
-@endif
+      <link rel="icon" href="{{ asset($settings->favico) }}" type="image/x-icon">
+    @endif
+    
 </head>
 
 <body class="bg-body-secondary">

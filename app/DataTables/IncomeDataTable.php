@@ -3,11 +3,13 @@
 namespace App\DataTables;
 
 use App\Models\Income;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
@@ -33,16 +35,29 @@ class IncomeDataTable extends DataTable
                             <i class="fa-solid fa-times me-2"></i>
                         </button>
                     </form>';
-        })        
-        ->addColumn('created_at', function($data){
-            return $data->created_at->format('jS M, Y H:i:s'); 
         })
-        ->addColumn('updated_at', function($data){
-            return $data->updated_at->format('jS M, Y'); 
+        ->addColumn('receipt', function($income) {
+            return '<img src="' . url('public/storage/images/income_receipts/' . $income->thumbnail) . '" class="img-sm">';
         })
         ->addColumn('amount', function($data){
             return   'Rs. ' .  number_format($data->amount);
-        });
+        })
+        ->addColumn('name', function($income){
+            return $income->category->name;
+        })
+        ->addColumn('note', function($income){
+            return Str::limit($income->income_note, 20, '...');
+        })
+        ->addColumn('income_date', function($income){
+            return Carbon::parse($income->income_date)->format('M d, Y');
+        })
+        ->addColumn('created_at', function($data){
+            return $data->created_at->toDayDateTimeString(); 
+        })
+        ->addColumn('updated_at', function($data){
+            return $data->updated_at->toDayDateTimeString(); 
+        })
+        ->rawColumns(['receipt', 'action']);
 
     }
 
@@ -82,14 +97,17 @@ class IncomeDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::make('name'),
             Column::make('amount'),
+            Column::make('note'),
+            Column::make('receipt'),
+            Column::make('income_date'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(100)
                   ->addClass('text-center'),
         ];
     }

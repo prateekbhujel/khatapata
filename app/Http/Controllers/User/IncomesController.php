@@ -8,7 +8,11 @@ use App\Models\Category;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager as Image;
+
 
 class IncomesController extends Controller
 {
@@ -26,8 +30,9 @@ class IncomesController extends Controller
      */
     public function create(): View
     {
-        
-        return view('user.income.create');
+        $categories = Category::where('type', 'income')->where('status','Active')->get();
+
+        return view('user.income.create', compact('categories'));
 
     }//End Method
 
@@ -37,14 +42,41 @@ class IncomesController extends Controller
      */
     public function store(Request $request)
     {
-        Income::create(
-            $request->validate([
-            'name'          => 'required|string',
-            'amount'        => 'required|numeric|min:0',
+        $validated = $request->validate([
+            'amount'             => 'required|numeric|min:0',
+            'category_id'        => 'required|exists:categories,id',
+            'income_note'        => 'required|string|min:5|max:1000',
+            'income_receipts'    => 'nullable|array',
+            'income_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'income_date'        => 'required|date',
         ]) + [
-            'user_id'       => Auth::id()
-        ]);
-
+            'user_id'            => Auth::id()
+        ];
+    
+        $income_receipts = [];
+        if ($request->hasFile('income_receipts')) {
+            // Ensure the directory exists
+            $directory = 'public/images/income_receipts';
+            Storage::makeDirectory($directory);
+    
+            foreach($request->file('income_receipts') as $receipt) {
+                $filename = "img" . date('YmdHis') . rand(1000, 9999) . "." . $receipt->extension();
+                
+                $img = (new Image(new Driver))->read($receipt);
+                $img->resize(1280, 720, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+                
+                $path = storage_path("app/{$directory}/{$filename}");
+                $img->save($path);
+                $income_receipts[] = $filename;
+            }
+        }
+    
+        $validated['income_receipts'] = $income_receipts;
+        Income::create($validated);
+        
         return to_route('user.income.index')->with('success', 'Income Created.');
 
     }//End Method

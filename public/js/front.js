@@ -40099,13 +40099,14 @@ var __webpack_exports__ = {};
 /*!*******************************!*\
   !*** ./resources/js/front.js ***!
   \*******************************/
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 window.jQuery = window.$ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 __webpack_require__(/*! trumbowyg */ "./node_modules/trumbowyg/dist/trumbowyg.js");
 __webpack_require__(/*! @fortawesome/fontawesome-free/js/all */ "./node_modules/@fortawesome/fontawesome-free/js/all.js");
 __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.mjs");
-
-//Custom Functions
 $(function () {
   $('.toast').toast('show');
 
@@ -40116,32 +40117,76 @@ $(function () {
       $(this).closest('form').submit();
     }
   });
-});
 
-// For Categories secction
-$(document).ready(function () {
-  // Form submission
-  $('#filterForm').on('submit', function (e) {
-    e.preventDefault();
-    // Serialize form data
-    var formData = $(this).serialize();
-    // Get the current AJAX URL of the DataTable
-    var dataTable = $('#category-table').DataTable();
-    var ajaxUrl = dataTable.ajax.url();
-    var newUrl;
-    if (ajaxUrl.includes('?')) {
-      newUrl = ajaxUrl + '&' + formData;
-    } else {
-      newUrl = ajaxUrl + '?' + formData;
+  // For Categories section
+  $(document).ready(function () {
+    // Form submission
+    $('#filterForm').on('submit', function (e) {
+      e.preventDefault();
+      // Serialize form data
+      var formData = $(this).serialize();
+      // Get the current AJAX URL of the DataTable
+      var dataTable = $('#category-table').DataTable();
+      var ajaxUrl = dataTable.ajax.url();
+      var newUrl;
+      if (ajaxUrl.includes('?')) {
+        newUrl = ajaxUrl + '&' + formData;
+      } else {
+        newUrl = ajaxUrl + '?' + formData;
+      }
+      dataTable.ajax.url(newUrl).load();
+    });
+  });
+  function resetForm() {
+    $('input[name="status"]').prop('checked', false);
+    $('input[name="type"]').prop('checked', false);
+    window.location.reload();
+  }
+
+  // For Receipts Images
+  $('#images').change(function (e) {
+    var files = e.target.files;
+    var html = '';
+    var _iterator = _createForOfIteratorHelper(files),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var file = _step.value;
+        html += "<div class=\"col-4\">\n                        <img class=\"img-fluid\" src=\"".concat(URL.createObjectURL(file), "\" />   \n                    </div>");
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
     }
-    dataTable.ajax.url(newUrl).load();
+    $('#img-container').html(html);
+  });
+  $(document).on('click', '.img-delete', function (e) {
+    e.preventDefault();
+    if (confirm("Are you Sure you want to delete this image?")) {
+      var id = $(this).data('id');
+      var file = $(this).data('file');
+      var csrf_token = $("meta[name='csrf_token']").attr('content');
+      var msg = '';
+      var img_col = $(this).parents('.col-4').first();
+      $.ajax({
+        // url: route('user.income.image', [id, file]),
+        method: 'delete',
+        data: {
+          _token: csrf_token
+        }
+      }).done(function (resp) {
+        img_col.remove();
+        msg = "<div class=\"toast align-items-center text-bg-success border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" araia-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(resp.success, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                      </div>");
+      }).fail(function (resp) {
+        msg = "<div class=\"toast align-items-center text-bg-danger border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" araia-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(JSON.parse(resp.responseText).error, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                        </div>");
+      }).always(function () {
+        $('#toast-container').html(msg);
+        $('.toast').toast('show');
+      });
+    }
   });
 });
-function resetForm() {
-  $('input[name="status"]').prop('checked', false);
-  $('input[name="type"]').prop('checked', false);
-  window.location.reload();
-}
 })();
 
 /******/ })()

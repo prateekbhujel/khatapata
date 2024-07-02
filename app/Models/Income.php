@@ -10,7 +10,7 @@ class Income extends Model
 {
     use HasFactory;
 
-    protected $gaurded = [];
+    protected $guarded = [];
 
     protected $casts = [
         'income_receipts' => 'array',
