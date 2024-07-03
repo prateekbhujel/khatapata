@@ -17,7 +17,7 @@
             <div class="row">
                 <form action="{{ route('admin.features.update', [$feature->id]) }}" method="post">
                     @csrf
-                    @method('patch')
+                    @method('PATCH')
 
                     <div class="col-5 mx-auto">
                         <div class="mb-3">

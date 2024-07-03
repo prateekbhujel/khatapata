@@ -15,9 +15,9 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('user.income.update', $income->id) }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('user.income.update', [$income->id]) }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
 
                     <div class="col-5 mx-auto">
                         
@@ -42,18 +42,30 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="income_receipts" class="form-label">Income Receipts</label><br>
+                            <label for="images" class="form-label">Images</label>
                             <input type="file" name="income_receipts[]" id="images" class="form-control" accept="image/*" multiple>
                         </div>
-                        <div class="row mt-3" id="img-container">
-                            @foreach($income->income_receipts as $receipt)
-                                <div class="col-3">
-                                    <img src="{{ url('public/storage/images/income_receipts/' . $receipt) }}" class="img-fluid img-thumbnail" alt="Income Receipt">
+
+                        <div class="row mt-3" id="img-container"></div>
+
+                        <div class="row">
+                            @foreach($income->income_receipts as $receipts)
+                                <div class="col-4 mt-3">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <img src="{{ url("public/storage/images/income_receipts/$receipts") }}" class="img-fluid">
+                                        </div>
+                                        <div class="col-12 mt-3 text-center">
+                                            <button type="button" class="btn btn-danger btn-sm img-delete" data-id="{{ $income->id }}" data-file="{{ $receipts }}">
+                                                <i class="fa-solid fa-times me-2"></i>Delete
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endforeach
+                            @endforeach 
                         </div>
 
-                        <div class="mb-3">
+                        <div class="my-4">
                             <label for="income_date" class="form-label">Received Date</label>
                             <input type="date" name="income_date" id="income_date" class="form-control" value="{{ old('income_date', $income->income_date) }}" required>
                         </div>

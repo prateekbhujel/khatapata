@@ -13,9 +13,9 @@
                 </div>
             </div>
             <div class="row">
-                <form action="{{ route('user.budget.update', $budget->id) }}" method="post">
+                <form action="{{ route('user.budget.update', [$budget->id]) }}" method="post">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
 
                     <div class="col-5 mx-auto">
 

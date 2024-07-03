@@ -51,7 +51,7 @@
         @endif
     </div>
 
-    <script src="{{ url('public/js/admin.js?123') }}"></script>
+    <script src="{{ url('public/js/front.js') }}"></script>
 
     {{-- Initalizing DataTable Globally --}}
     @if (!empty($dataTable))
