@@ -40108,44 +40108,25 @@ __webpack_require__(/*! trumbowyg */ "./node_modules/trumbowyg/dist/trumbowyg.js
 __webpack_require__(/*! @fortawesome/fontawesome-free/js/all */ "./node_modules/@fortawesome/fontawesome-free/js/all.js");
 __webpack_require__(/*! datatables.net-bs4 */ "./node_modules/datatables.net-bs4/js/dataTables.bootstrap4.mjs");
 $(function () {
+  initializeToasts();
+  handleDeleteButtons();
+  handleImageUpload('#images', '#img-container');
+  handleImageDeletion('.img-delete-income', 'user.income.delete');
+  handleImageDeletion('.img-delete-expense', 'user.expense.delete');
+});
+function initializeToasts() {
   $('.toast').toast('show');
-
-  // Event delegation for delete buttons
+}
+function handleDeleteButtons() {
   $(document).on('click', '.delete', function (e) {
     e.preventDefault();
     if (confirm('Are you sure you want to delete this item?!')) {
       $(this).closest('form').submit();
     }
   });
-
-  // // For Categories section
-  // $(document).ready(function() {
-  //     // Form submission
-  //     $('#filterForm').on('submit', function(e) {
-  //         e.preventDefault();
-  //         // Serialize form data
-  //         var formData = $(this).serialize();
-  //         // Get the current AJAX URL of the DataTable
-  //         var dataTable = $('#category-table').DataTable();
-  //         var ajaxUrl = dataTable.ajax.url();
-  //         var newUrl;
-  //         if (ajaxUrl.includes('?')) {
-  //             newUrl = ajaxUrl + '&' + formData;
-  //         } else {
-  //             newUrl = ajaxUrl + '?' + formData;
-  //         }
-  //         dataTable.ajax.url(newUrl).load();
-  //     });
-  // });
-
-  // function resetForm() {
-  //     $('input[name="status"]').prop('checked', false);
-  //     $('input[name="type"]').prop('checked', false);
-  //     window.location.reload();
-  // }
-
-  // For Receipts Images
-  $('#images').change(function (e) {
+}
+function handleImageUpload(inputSelector, containerSelector) {
+  $(inputSelector).change(function (e) {
     var files = e.target.files;
     var html = '';
     var _iterator = _createForOfIteratorHelper(files),
@@ -40160,34 +40141,36 @@ $(function () {
     } finally {
       _iterator.f();
     }
-    $('#img-container').html(html);
+    $(containerSelector).html(html);
   });
-  $(document).on('click', '.img-delete', function (e) {
+}
+function handleImageDeletion(selector, routeName) {
+  $(document).on('click', selector, function (e) {
     e.preventDefault();
-    if (confirm("Are you Sure you want to delete this image?")) {
+    if (confirm("Are you sure you want to delete this image?")) {
       var id = $(this).data('id');
       var file = $(this).data('file');
       var csrf_token = $("meta[name='csrf_token']").attr('content');
       var msg = '';
       var img_col = $(this).parents('.col-4').first();
       $.ajax({
-        // url: route('user.income.image', [id, file]),
+        url: route(routeName, [id, file]),
         method: 'delete',
         data: {
           _token: csrf_token
         }
       }).done(function (resp) {
         img_col.remove();
-        msg = "<div class=\"toast align-items-center text-bg-success border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" araia-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(resp.success, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                      </div>");
+        msg = "<div class=\"toast align-items-center text-bg-success border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(resp.success, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                      </div>");
       }).fail(function (resp) {
-        msg = "<div class=\"toast align-items-center text-bg-danger border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" araia-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(JSON.parse(resp.responseText).error, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                        </div>");
+        msg = "<div class=\"toast align-items-center text-bg-danger border-0 mt-3\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n                            <div class=\"d-flex\">\n                                <div class=\"toast-body\">\n                                    ".concat(JSON.parse(resp.responseText).error, "\n                                </div>\n                                <button type=\"button\" class=\"btn-close-white me-2 auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                            </div>\n                        </div>");
       }).always(function () {
         $('#toast-container').html(msg);
         $('.toast').toast('show');
       });
     }
   });
-});
+}
 })();
 
 /******/ })()

@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="images" class="form-label">Images</label>
+                            <label for="images" class="form-label">Receipts</label>
                             <input type="file" name="income_receipts[]" id="images" class="form-control" accept="image/*" multiple>
                         </div>
 
@@ -56,7 +56,7 @@
                                             <img src="{{ url("public/storage/images/income_receipts/$receipts") }}" class="img-fluid">
                                         </div>
                                         <div class="col-12 mt-3 text-center">
-                                            <button type="button" class="btn btn-danger btn-sm img-delete" data-id="{{ $income->id }}" data-file="{{ $receipts }}">
+                                            <button type="button" class="btn btn-danger btn-sm img-delete-income" data-id="{{ $income->id }}" data-file="{{ $receipts }}">
                                                 <i class="fa-solid fa-times me-2"></i>Delete
                                             </button>
                                         </div>

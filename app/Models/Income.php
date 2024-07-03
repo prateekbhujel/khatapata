@@ -42,9 +42,19 @@ class Income extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::get(function($value, $attr) {
-            return json_decode($attr['income_receipts'], true)[0];
+            return json_decode($attr['income_receipts'], true)[0] ?? '';
         });
 
     }//End Mehtod
+
+
+    /**
+     * Gets the total balance available from the db. 
+    */
+    public function totalBalance()
+    {
+        return $this::total('amount');
+
+    }//End Method
 
 }

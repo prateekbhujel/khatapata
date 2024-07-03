@@ -5,44 +5,28 @@ require('@fortawesome/fontawesome-free/js/all');
 require('datatables.net-bs4');
 
 $(function () {
+    initializeToasts();
+    handleDeleteButtons();
+    handleImageUpload('#images', '#img-container');
+    handleImageDeletion('.img-delete-income', 'user.income.delete');
+    handleImageDeletion('.img-delete-expense', 'user.expense.delete');
+});
+
+function initializeToasts() {
     $('.toast').toast('show');
-    
-    // Event delegation for delete buttons
+}
+
+function handleDeleteButtons() {
     $(document).on('click', '.delete', function(e) {
         e.preventDefault();
         if (confirm('Are you sure you want to delete this item?!')) {
             $(this).closest('form').submit();
         }
     });
+}
 
-    // // For Categories section
-    // $(document).ready(function() {
-    //     // Form submission
-    //     $('#filterForm').on('submit', function(e) {
-    //         e.preventDefault();
-    //         // Serialize form data
-    //         var formData = $(this).serialize();
-    //         // Get the current AJAX URL of the DataTable
-    //         var dataTable = $('#category-table').DataTable();
-    //         var ajaxUrl = dataTable.ajax.url();
-    //         var newUrl;
-    //         if (ajaxUrl.includes('?')) {
-    //             newUrl = ajaxUrl + '&' + formData;
-    //         } else {
-    //             newUrl = ajaxUrl + '?' + formData;
-    //         }
-    //         dataTable.ajax.url(newUrl).load();
-    //     });
-    // });
-
-    // function resetForm() {
-    //     $('input[name="status"]').prop('checked', false);
-    //     $('input[name="type"]').prop('checked', false);
-    //     window.location.reload();
-    // }
-
-    // For Receipts Images
-    $('#images').change(function(e) {
+function handleImageUpload(inputSelector, containerSelector) {
+    $(inputSelector).change(function(e) {
         let files = e.target.files;
         let html = '';
 
@@ -52,13 +36,15 @@ $(function () {
                     </div>`;
         }
 
-        $('#img-container').html(html);
+        $(containerSelector).html(html);
     });
+}
 
-    $(document).on('click', '.img-delete', function(e) {
+function handleImageDeletion(selector, routeName) {
+    $(document).on('click', selector, function(e) {
         e.preventDefault();
 
-        if (confirm("Are you Sure you want to delete this image?")) {
+        if (confirm("Are you sure you want to delete this image?")) {
             let id = $(this).data('id');
             let file = $(this).data('file');
             let csrf_token = $("meta[name='csrf_token']").attr('content');
@@ -66,14 +52,14 @@ $(function () {
             let img_col = $(this).parents('.col-4').first();
 
             $.ajax({
-                // url: route('user.income.image', [id, file]),
+                url: route(routeName, [id, file]),
                 method: 'delete',
                 data: {
                     _token: csrf_token
                 }
             }).done(function(resp){
                 img_col.remove();
-                msg = `<div class="toast align-items-center text-bg-success border-0 mt-3" role="alert" aria-live="assertive" araia-atomic="true">
+                msg = `<div class="toast align-items-center text-bg-success border-0 mt-3" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="d-flex">
                                 <div class="toast-body">
                                     ${resp.success}
@@ -82,7 +68,7 @@ $(function () {
                             </div>
                       </div>`;
             }).fail(function(resp){
-                msg = `<div class="toast align-items-center text-bg-danger border-0 mt-3" role="alert" aria-live="assertive" araia-atomic="true">
+                msg = `<div class="toast align-items-center text-bg-danger border-0 mt-3" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="d-flex">
                                 <div class="toast-body">
                                     ${JSON.parse(resp.responseText).error}
@@ -96,4 +82,4 @@ $(function () {
             });
         }
     });
-});
+}

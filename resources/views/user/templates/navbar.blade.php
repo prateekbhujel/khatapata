@@ -27,7 +27,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-item {{ request()->routeIs('user.icnome.*') ? 'active' : '' }}" href="{{ route('user.income.index') }}">
+                        <a class="nav-link nav-item {{ request()->routeIs('user.income.*') ? 'active' : '' }}" href="{{ route('user.income.index') }}">
                             <i class="fas fa-coins me-2"></i>Income
                         </a>
                     </li>

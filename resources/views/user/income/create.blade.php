@@ -42,7 +42,7 @@
 
                         <div class="mb-3">
                             <label for="income_receipts" class="form-label">Income Receipts</label><br>
-                            <input type="file" name="income_receipts[]" id="images" class="form-control" accept="image/*" multiple required>
+                            <input type="file" name="income_receipts[]" id="images" class="form-control" accept="image/*" multiple>
                         </div>
                         <div class="row mt-3" id="img-container"></div>
 

@@ -37,7 +37,7 @@ class IncomeDataTable extends DataTable
                     </form>';
         })
         ->addColumn('receipt', function($income) {
-            return '<img src="' . url('public/storage/images/income_receipts/' . $income->thumbnail) . '" class="img-sm">';
+            return '<img src="' . url('public/storage/images/income_receipts/' . $income->thumbnail ?? '') . '" class="img-sm">';
         })
         ->addColumn('amount', function($data){
             return   'Rs. ' .  number_format($data->amount);

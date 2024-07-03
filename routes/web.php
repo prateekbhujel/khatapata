@@ -103,6 +103,9 @@ Route::prefix('user')->name('user.')->group(function () {
 
             ]);//End of Resource route
 
+            Route::delete('/income/{income}/image/income_receipts/{filename}', [IncomesController::class, 'receipt'])->name('income.delete');
+            Route::delete('/expense/{expense}/image/expense_receipts/{filename}', [ExpensesController::class, 'receipt'])->name('expense.delete');
+
         });//End of active-only middleware
 
         /** Inactive Page View **/

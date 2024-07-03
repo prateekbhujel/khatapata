@@ -47,7 +47,7 @@ class IncomesController extends Controller
             'category_id'        => 'required|exists:categories,id',
             'income_note'        => 'required|string|min:5|max:1000',
             'income_receipts'    => 'nullable|array',
-            'income_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'income_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
             'income_date'        => 'required|date',
         ]) + [
             'user_id'            => Auth::id()
@@ -81,17 +81,6 @@ class IncomesController extends Controller
 
     }//End Method
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Income $income)
-    {
-        //
-
-    }//End Method
-
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -111,7 +100,35 @@ class IncomesController extends Controller
      */
     public function update(Request $request, Income $income)
     {
-        //
+        $validated = $request->validate([
+            'amount'             => 'required|numeric|min:0',
+            'category_id'        => 'required|exists:categories,id',
+            'income_note'        => 'required|string|min:5|max:1000',
+            'income_receipts'    => 'nullable|array',
+            'income_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
+            'income_date'        => 'required|date',
+        ]) + [
+            'user_id'            => Auth::id()
+        ];
+
+        $receipts = $income->income_receipts;
+        if($request->hasFile('income_receipts'))
+        {
+            foreach($request->income_receipts as $receipt) {
+                $filename = "img" . date('YmdHis') . rand(1000, 9999) . "." .$receipt->extension();
+
+                $img = (new Image(new Driver))->read($receipt);
+
+                $img->scaleDown(1280, 720)->save(storage_path("app/public/images/income_receipts/$filename"));
+
+                $receipts[] = $filename;
+            }
+        }
+
+        $validated['income_receipts'] = $receipts;
+        $income->update($validated);
+
+        return to_route('user.income.index')->with('success', 'Income record has been updated.');
 
     }//End Method
 
@@ -121,7 +138,33 @@ class IncomesController extends Controller
      */
     public function destroy(Income $income)
     {
+        foreach($income->income_receipts as $receipt)
+        {
+            unlink(storage_path("app/public/images/income_receipts/$receipt"));
+        }
+
         $income->delete();
+
+        return to_route('user.income.index')->with('success', 'Income record removed.');
+
+    }//End Method
+
+    public function receipt(Income $income, string $filename)
+    {
+        if(count($income->income_receipts) > 0)
+        {
+            unlink(storage_path("app/public/images/income_receipts/$filename"));
+
+            $income_receipts = array_values(array_diff($income->income_receipts, [$filename]));
+
+            $income->update(['income_receipts' => $income_receipts]);
+
+            return response(['success' => 'Receipt Removed'], 200);
+
+        }else
+        {
+            return response(['error' => 'At least one receipt is required.'], 400);
+        }
 
     }//End Method
 

@@ -36,10 +36,10 @@ class BudgetDataTable extends DataTable
                     </form>';
         })        
         ->addColumn('created_at', function($data){
-            return $data->created_at->format('jS M, Y H:i'); 
+            return $data->created_at->toDayDateTimeString(); 
         })
         ->addColumn('updated_at', function($data){
-            return $data->updated_at->format('jS M, Y H:i'); 
+            return $data->updated_at->toDayDateTimeString(); 
         })
         ->addColumn('amount', function($data){
             return   'Rs. ' .  number_format($data->amount);
