@@ -85,5 +85,14 @@ class User extends Authenticatable
         return $this->hasMany(Budget::class);
         
     }//End Method    
+
+    /**
+     * Relationship with the Balance model.
+     */
+    public function balance()
+    {
+        return $this->hasOne(Balance::class);
+
+    }//End Method
     
 }

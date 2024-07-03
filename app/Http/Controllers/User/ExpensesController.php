@@ -4,9 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\DataTables\ExpenseDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
+use App\Models\Budget;
 use App\Models\Category;
 use App\Models\Expense;
-use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -44,14 +45,27 @@ class ExpensesController extends Controller
         $validated = $request->validate([
             'amount'             => 'required|numeric|min:0',
             'category_id'        => 'required|exists:categories,id',
-            'expense_note'        => 'required|string|min:5|max:1000',
-            'expense_receipts'    => 'nullable|array',
-            'expense_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
-            'expense_date'        => 'required|date',
+            'expense_note'       => 'required|string|min:5|max:1000',
+            'expense_receipts'   => 'nullable|array',
+            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
+            'expense_date'       => 'required|date',
         ]) + [
             'user_id'            => Auth::id()
         ];
     
+        $budget = Budget::where('category_id', $validated['category_id'])->first();
+        $balance = Balance::where('user_id', Auth::id())->first();
+        $total_expenses = Expense::where('category_id', $validated['category_id'])->sum('amount');
+
+        if ($budget && $budget->amount < ($total_expenses + $validated['amount'])) {
+            return redirect()->back()->withErrors(['amount' => 'This expense exceeds the budget for this category.']);
+        }
+    
+        // Check if the user has enough balance
+        if ($balance->balance < $validated['amount']) {
+            return redirect()->back()->withErrors(['amount' => 'Insufficient balance. Please add more income.']);
+        }
+        
         $expense_receipts = [];
         if ($request->hasFile('expense_receipts')) {
             // Ensure the directory exists
@@ -74,7 +88,10 @@ class ExpensesController extends Controller
         }
     
         $validated['expense_receipts'] = $expense_receipts;
-        Expense::create($validated);
+        $expense = Expense::create($validated);
+
+        // Update balance
+        $balance->decrement('balance', $expense->amount);
         
         return to_route('user.expense.index')->with('success', 'Expense record Created.');
 
@@ -102,13 +119,26 @@ class ExpensesController extends Controller
         $validated = $request->validate([
             'amount'             => 'required|numeric|min:0',
             'category_id'        => 'required|exists:categories,id',
-            'expense_note'        => 'required|string|min:5|max:1000',
-            'expense_receipts'    => 'nullable|array',
-            'expense_receipts.*'  => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
-            'expense_date'        => 'required|date',
+            'expense_note'       => 'required|string|min:5|max:1000',
+            'expense_receipts'   => 'nullable|array',
+            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
+            'expense_date'       => 'required|date',
         ]) + [
             'user_id'            => Auth::id()
         ];
+        $budget = Budget::where('category_id', $validated['category_id'])->first();
+        $balance = Balance::where('user_id', Auth::id())->first();
+        $total_expenses = Expense::where('category_id', $validated['category_id'])->where('id', '!=', $expense->id)->sum('amount');
+
+        if ($budget && $budget->amount < ($total_expenses + $validated['amount'])) {
+            return redirect()->back()->withErrors(['amount' => 'This expense exceeds the budget for this category.']);
+        }
+    
+        // Check if the user has enough balance
+        $new_amount = $validated['amount'] - $expense->amount;
+        if ($balance->balance < $new_amount) {
+            return redirect()->back()->withErrors(['amount' => 'Insufficient balance. Please add more income.']);
+        }
 
         $receipts = $expense->expense_receipts;
         if($request->hasFile('expense_receipts'))
@@ -127,6 +157,9 @@ class ExpensesController extends Controller
         $validated['expense_receipts'] = $receipts;
         $expense->update($validated);
 
+        // Update balance
+        $balance->decrement('balance', $new_amount);
+        
         return to_route('user.expense.index')->with('success', 'Expense record has been updated.');
 
 
@@ -137,6 +170,10 @@ class ExpensesController extends Controller
      */
     public function destroy(Expense $expense)
     {
+        // Adjust the balance
+        $balance = Balance::where('user_id', Auth::id())->first();
+        $balance->increment('balance', $expense->amount);
+
         foreach($expense->expense_receipts as $receipt)
         {
             unlink(storage_path("app/public/images/expense_receipts/$receipt"));

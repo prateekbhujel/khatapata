@@ -43,7 +43,7 @@ class Expense extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::get(function($value, $attr) {
-            return json_decode($attr['expense_receipts'], true)[0] ?? '';
+            return json_decode($attr['expense_receipts'], true)[0] ?? 'placeholder-image.jpg';
         });
 
     }//End Mehtod

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\DataTables\IncomeDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Balance;
 use App\Models\Category;
 use App\Models\Income;
 use Illuminate\Http\Request;
@@ -75,8 +76,12 @@ class IncomesController extends Controller
         }
     
         $validated['income_receipts'] = $income_receipts;
-        Income::create($validated);
-        
+        $income = Income::create($validated);
+
+        //Update balance
+        $balance = Balance::firstOrCreate(['user_id' => Auth::id()]);
+        $balance->increment('balance', $income->amount);
+
         return to_route('user.income.index')->with('success', 'Income Created.');
 
     }//End Method
@@ -128,6 +133,10 @@ class IncomesController extends Controller
         $validated['income_receipts'] = $receipts;
         $income->update($validated);
 
+        //Update balance
+        $balance = Balance::firstOrCreate(['user_id' => Auth::id()]);
+        $balance->increment('balance', $income->amount);
+
         return to_route('user.income.index')->with('success', 'Income record has been updated.');
 
     }//End Method
@@ -138,6 +147,9 @@ class IncomesController extends Controller
      */
     public function destroy(Income $income)
     {
+        $balance = Balance::firstOrCreate(['user_id' => Auth::id()]);
+        $balance->decrement('balance', $income->amount);
+
         foreach($income->income_receipts as $receipt)
         {
             unlink(storage_path("app/public/images/income_receipts/$receipt"));
