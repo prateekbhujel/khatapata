@@ -8,6 +8,8 @@ use App\Models\Balance;
 use App\Models\Budget;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Income;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +33,7 @@ class ExpensesController extends Controller
      */
     public function create()
     {
-        $categories = Category::where('type', 'expense')->where('status','Active')->get();
+        $categories = Category::where('type', 'expense')->where('status','Active')->where('user_id', auth()->user()->id)->get();
 
         return view('user.expense.create', compact('categories'));
 
@@ -47,23 +49,41 @@ class ExpensesController extends Controller
             'category_id'        => 'required|exists:categories,id',
             'expense_note'       => 'required|string|min:5|max:1000',
             'expense_receipts'   => 'nullable|array',
-            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
+            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp,png,JPG|max:2048',
             'expense_date'       => 'required|date',
         ]) + [
             'user_id'            => Auth::id()
         ];
     
-        $budget = Budget::where('category_id', $validated['category_id'])->first();
-        $balance = Balance::where('user_id', Auth::id())->first();
-        $total_expenses = Expense::where('category_id', $validated['category_id'])->sum('amount');
-
-        if ($budget && $budget->amount < ($total_expenses + $validated['amount'])) {
-            return redirect()->back()->withErrors(['amount' => 'This expense exceeds the budget for this category.']);
+        $expenseDate = Carbon::parse($validated['expense_date']);
+    
+        $totalIncomeUpToDate = Income::where('user_id', Auth::id())
+            ->whereDate('income_date', '<=', $expenseDate)
+            ->sum('amount');
+    
+        if ($totalIncomeUpToDate == 0) {
+            return redirect()->back()->withErrors(['expense_date' => 'No income present up to the selected expense date.']);
         }
     
-        // Check if the user has enough balance
-        if ($balance->balance < $validated['amount']) {
+        $totalExpensesUpToDate = Expense::where('user_id', Auth::id())
+            ->whereDate('expense_date', '<=', $expenseDate)
+            ->sum('amount');
+    
+        // Check if the expense exceeds the total income up to that date
+        if ($totalExpensesUpToDate + $validated['amount'] > $totalIncomeUpToDate) {
+            return redirect()->back()->withErrors(['amount' => 'Insufficient income for this expense.']);
+        }
+
+        $balance = Balance::where('user_id', Auth::id())->first();
+        if (!$balance || $balance->balance < $validated['amount']) {
             return redirect()->back()->withErrors(['amount' => 'Insufficient balance. Please add more income.']);
+        }
+    
+        $budget = Budget::where('category_id', $validated['category_id'])->first();
+        $totalExpensesForCategory = Expense::where('category_id', $validated['category_id'])->sum('amount');
+    
+        if ($budget && $budget->amount < ($totalExpensesForCategory + $validated['amount'])) {
+            return redirect()->back()->withErrors(['amount' => 'This expense exceeds the budget for this category.']);
         }
         
         $expense_receipts = [];
@@ -121,11 +141,32 @@ class ExpensesController extends Controller
             'category_id'        => 'required|exists:categories,id',
             'expense_note'       => 'required|string|min:5|max:1000',
             'expense_receipts'   => 'nullable|array',
-            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp|max:2048',
+            'expense_receipts.*' => 'nullable|image|mimes:jpeg,jpg,webp,png,JPG|max:2048',
             'expense_date'       => 'required|date',
         ]) + [
             'user_id'            => Auth::id()
         ];
+
+        $expenseDate = Carbon::parse($validated['expense_date']);
+
+        $totalIncomeUpToDate = Income::where('user_id', Auth::id())
+            ->whereDate('income_date', '<=', $expenseDate)
+            ->sum('amount');
+
+        if ($totalIncomeUpToDate == 0) {
+            return redirect()->back()->withErrors(['expense_date' => 'No income present up to the selected expense date.']);
+        }
+
+        $totalExpensesUpToDate = Expense::where('user_id', Auth::id())
+            ->whereDate('expense_date', '<=', $expenseDate)
+            ->where('id', '!=', $expense->id)
+            ->sum('amount');
+
+        // Check if the expense exceeds the total income up to that date
+        if ($totalExpensesUpToDate + $validated['amount'] > $totalIncomeUpToDate) {
+            return redirect()->back()->withErrors(['amount' => 'Insufficient income for this expense.']);
+        }
+
         $budget = Budget::where('category_id', $validated['category_id'])->first();
         $balance = Balance::where('user_id', Auth::id())->first();
         $total_expenses = Expense::where('category_id', $validated['category_id'])->where('id', '!=', $expense->id)->sum('amount');
@@ -136,7 +177,7 @@ class ExpensesController extends Controller
     
         // Check if the user has enough balance
         $new_amount = $validated['amount'] - $expense->amount;
-        if ($balance->balance < $new_amount) {
+        if ($balance === null || $balance->balance < $new_amount) {
             return redirect()->back()->withErrors(['amount' => 'Insufficient balance. Please add more income.']);
         }
 

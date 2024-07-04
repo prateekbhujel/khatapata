@@ -55,7 +55,8 @@ class BudgetDataTable extends DataTable
      */
     public function query(Budget $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('user_id', auth()->user()->id);
+
     }
 
     /**

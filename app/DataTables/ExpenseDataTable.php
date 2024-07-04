@@ -66,7 +66,7 @@ class ExpenseDataTable extends DataTable
      */
     public function query(Expense $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('user_id', auth()->user()->id);
     }
 
     /**

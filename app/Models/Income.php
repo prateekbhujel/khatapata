@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Income extends Model
 {
@@ -54,6 +56,33 @@ class Income extends Model
     public function totalBalance()
     {
         return $this::total('amount');
+
+    }//End Method
+
+
+        /**
+     * Check if the income can be updated without causing insufficient funds.
+     */
+    public static function canUpdateIncome(Income $income, array $validated): bool
+    {
+        $incomeDate = Carbon::parse($validated['income_date']);
+
+        // Sum total expenses up to the given income date
+        $totalExpensesUpToDate = Expense::where('user_id', Auth::id())
+            ->whereDate('expense_date', '>=', $incomeDate)
+            ->sum('amount');
+
+        // Sum total income up to the given income date excluding the current income
+        $totalIncomeUpToDateExcludingCurrent = Income::where('user_id', Auth::id())
+            ->where('id', '!=', $income->id)
+            ->whereDate('income_date', '<=', $incomeDate)
+            ->sum('amount');
+
+        // Calculate the new total income
+        $newTotalIncome = $totalIncomeUpToDateExcludingCurrent + $validated['amount'];
+
+        // Ensure the new total income can cover the total expenses
+        return $newTotalIncome >= $totalExpensesUpToDate;
 
     }//End Method
 

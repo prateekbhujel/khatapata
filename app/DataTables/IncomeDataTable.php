@@ -66,7 +66,8 @@ class IncomeDataTable extends DataTable
      */
     public function query(Income $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('user_id', auth()->user()->id);
+
     }
 
     /**

@@ -52,7 +52,7 @@
     </div>
 
     <script src="{{ url('public/js/front.js') }}"></script>
-
+    
     {{-- Initalizing DataTable Globally --}}
     @if (!empty($dataTable))
       

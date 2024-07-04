@@ -1,6 +1,6 @@
 # Khatapata
 
-Khatapata is a powerful content management system (CMS) and financial management platform built with Laravel and jQuery. It provides administrators with a user-friendly interface to create and manage financial content, while also offering users robust tools for expense tracking, budgeting, and investment management.
+Khatapata is an simple expense and income tracker with budget management built with Laravel and jQuery. It provides administrators with a user-friendly interface to create and manage financial content, while also offering users robust tools for expense tracking, budgeting.
 
 ## Features
 
@@ -9,17 +9,12 @@ Khatapata is a powerful content management system (CMS) and financial management
   - Content creation and management (articles, guides, tutorials)
   - Categorization and tagging
   - SEO optimization
-  - Analytics and reporting
 
 - **Backend Financial Management**:
+  - Custom Categories
+  - Dashboard with Bardiagram
   - Expense and income tracking
-  - Budgeting and goal setting
-  - Financial reports and visualizations
-  - Debt management
-  - Investment tracking
-  - Multi-currency support
-  - Integration with financial institutions
-  - Notifications and reminders
+  - Budgeting setting
 
 ## Installation
 

@@ -6,7 +6,9 @@ use App\DataTables\IncomeDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Balance;
 use App\Models\Category;
+use App\Models\Expense;
 use App\Models\Income;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -31,7 +33,10 @@ class IncomesController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::where('type', 'income')->where('status','Active')->get();
+        $categories = Category::where('type', 'income')
+                                ->where('status','Active')
+                                ->where('user_id', auth()->user()->id)
+                                ->get();
 
         return view('user.income.create', compact('categories'));
 
@@ -116,6 +121,19 @@ class IncomesController extends Controller
             'user_id'            => Auth::id()
         ];
 
+        // Check if the updated income will cover the expenses up to the date
+        if (!Income::canUpdateIncome($income, $validated)) {
+            return redirect()->back()->withErrors(['amount' => 'Updating this income will cause insufficient funds for existing expenses.']);
+        }
+
+        // Adjust balance for the difference in income amounts
+        $balance = Balance::where('user_id', Auth::id())->first();
+        $incomeDifference = $validated['amount'] - $income->amount;
+
+        if ($incomeDifference + $balance->balance < 0) {
+            return redirect()->back()->withErrors(['amount' => 'Insufficient balance after updating the income.']);
+        }
+
         $receipts = $income->income_receipts;
         if($request->hasFile('income_receipts'))
         {
@@ -179,5 +197,7 @@ class IncomesController extends Controller
         }
 
     }//End Method
+
+
 
 }
